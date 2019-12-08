@@ -3,7 +3,6 @@ using UnityEngine;
 public class MouseOrbiterImproved : MonoBehaviour {
 
     public Transform target;
-    public bool showCursor = false;
     public float distance = 5.0f;
     public float xSpeed = 120.0f;
     public float ySpeed = 120.0f;
@@ -15,6 +14,8 @@ public class MouseOrbiterImproved : MonoBehaviour {
     public float distanceMin = .5f;
     public float distanceMax = 15f;
 
+    private bool isOrbiting;
+
     float x = 0.0f;
     float y = 0.0f;
 
@@ -22,11 +23,24 @@ public class MouseOrbiterImproved : MonoBehaviour {
         Vector3 angles = transform.eulerAngles;
         x = angles.y;
         y = angles.x;
-        Cursor.visible = showCursor;
+    }
+    
+    void Update() {
+        if (Input.GetButtonDown("Fire2")) {
+            isOrbiting = true;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
+        if (Input.GetButtonUp("Fire2")) {
+            isOrbiting = false;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
     }
 
     void LateUpdate() {
-        if (target) {
+        if (isOrbiting && target) {
             x += Input.GetAxis("Mouse X") * xSpeed * distance * 0.02f;
             y -= Input.GetAxis("Mouse Y") * ySpeed * 0.02f;
 
@@ -44,7 +58,7 @@ public class MouseOrbiterImproved : MonoBehaviour {
         }
     }
 
-    public static float ClampAngle(float angle, float min, float max) {
+    private static float ClampAngle(float angle, float min, float max) {
         if (angle < -360F)
             angle += 360F;
         if (angle > 360F)
