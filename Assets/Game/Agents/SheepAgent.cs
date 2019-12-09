@@ -105,6 +105,6 @@ namespace Game {
             Vector3 targetPosition = Game.Utils.RandomNavSphere(transform.position, wanderDistance, -1);
             nextActionDelay = UnityEngine.Random.Range(minActionDelaySeconds, maxActionDelaySeconds);
             MoveToLocation(targetPosition);
-        }
+        } 
     }
 }
