@@ -18,24 +18,24 @@ namespace Game {
         private int foodEaten;
         public int foodCountToReproduce = 5;
         public int babyFoodCount = -5;
+        private float baseBabyScale = 0.33f;
+        private AutonomousLegomatic legController;
 
         void Awake() {
             base.init();
+            legController = GetComponent<AutonomousLegomatic>();
             initialObjPos = body.localPosition;
         }
 
         void Start() {
             moveToRandomPoint();
+            updateScale();
         }
 
         void Update() {
             updateBreathing();
 
-            if (foodTarget != null) {
-                // check to see if can eat the food
-                currentDelayTime = 0;
-
-            } else {
+            if (foodTarget == null) {
                 currentDelayTime += Time.deltaTime;
                 if (currentDelayTime > nextActionDelay) {
                     moveToRandomPoint();
@@ -46,6 +46,7 @@ namespace Game {
 
         public bool setFoodTarget(Food target) {
             if (foodTarget == null) {
+                currentDelayTime = 0;
                 foodTarget = target;
                 MoveToLocation(target.transform.position);
                 return true;
@@ -64,8 +65,23 @@ namespace Game {
 
             if (foodEaten >= foodCountToReproduce) {
                 foodEaten -= foodCountToReproduce;
-                // TODO: spawn babbies
+
+                for (int i = 0; i < UnityEngine.Random.Range(1, 4); i++) {
+                    var position = Game.Utils.RandomNavSphere(transform.position, 1.5f, -1);
+                    var newSheep = GameObject.Instantiate(this, position, UnityEngine.Random.rotation);
+                    newSheep.foodEaten = babyFoodCount;
+                }
+
+            } else if (foodEaten <= 0) {
+                updateScale();
             }
+        }
+
+        private void updateScale() {
+            float scale = 1 - (foodEaten / (float)babyFoodCount);
+            scale = baseBabyScale + (1 - baseBabyScale) * scale;
+            transform.localScale = new Vector3(scale, scale, scale);
+            legController.scaleFeet(transform.localScale);
         }
 
         private void updateBreathing() {
@@ -81,7 +97,7 @@ namespace Game {
 
         private void moveToRandomPoint() {
             Vector3 targetPosition = Game.Utils.RandomNavSphere(transform.position, wanderDistance, -1);
-            nextActionDelay = (float)UnityEngine.Random.Range(minActionDelaySeconds, maxActionDelaySeconds);
+            nextActionDelay = UnityEngine.Random.Range(minActionDelaySeconds, maxActionDelaySeconds);
             MoveToLocation(targetPosition);
         }
     }

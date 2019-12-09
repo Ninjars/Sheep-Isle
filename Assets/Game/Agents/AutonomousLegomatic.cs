@@ -85,6 +85,15 @@ namespace Game {
 			}
         }
 
+        internal void scaleFeet(Vector3 scale) {
+            foreach (var foot in leftFeet) {
+				foot.transform.localScale = scale;
+			}
+			foreach (var foot in rightFeet) {
+				foot.transform.localScale = scale;
+			}
+        }
+
         void OnDestroy() {
 			try {
 				foreach (var foot in leftFeet) {
