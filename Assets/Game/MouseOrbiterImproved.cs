@@ -40,11 +40,12 @@ public class MouseOrbiterImproved : MonoBehaviour {
     }
 
     void LateUpdate() {
-        if (isOrbiting && target) {
-            x += Input.GetAxis("Mouse X") * xSpeed * distance * 0.02f;
-            y -= Input.GetAxis("Mouse Y") * ySpeed * 0.02f;
-
-            y = ClampAngle(y, yMinLimit, yMaxLimit);
+        if (target) {
+            if (isOrbiting) {
+                x += Input.GetAxis("Mouse X") * xSpeed * distance * 0.02f;
+                y -= Input.GetAxis("Mouse Y") * ySpeed * 0.02f;
+                y = ClampAngle(y, yMinLimit, yMaxLimit);
+            }
 
             Quaternion rotation = Quaternion.Euler(y, x, 0);
 
