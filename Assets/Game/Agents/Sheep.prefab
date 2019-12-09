@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1557799746678026}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.15, z: 0.587}
+  m_LocalPosition: {x: 0, y: 0.085, z: 0.587}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 4848802535695884}
@@ -206,7 +206,9 @@ MonoBehaviour:
   wanderDistance: 8
   minActionDelaySeconds: 3
   maxActionDelaySeconds: 10
-  debugDraw: 0
+  breathCycleTime: 2
+  body: {fileID: 4683941620035444}
+  breathHeight: 0.025
 --- !u!1 &1668475154609184
 GameObject:
   m_ObjectHideFlags: 0
