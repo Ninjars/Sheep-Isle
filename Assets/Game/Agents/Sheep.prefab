@@ -211,6 +211,10 @@ MonoBehaviour:
   breathHeight: 0.025
   foodCountToReproduce: 5
   babyFoodCount: -5
+  babySpawnParticleEffect: {fileID: 172526, guid: ce528bbf474064865b227bb8deb9cbe8,
+    type: 3}
+  happySheepParticleEffect: {fileID: 120334, guid: b3a83771f8b3743049e25f30ddba30a3,
+    type: 3}
 --- !u!1 &1668475154609184
 GameObject:
   m_ObjectHideFlags: 0

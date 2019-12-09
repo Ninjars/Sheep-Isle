@@ -20,6 +20,8 @@ namespace Game {
         public int babyFoodCount = -5;
         private float baseBabyScale = 0.33f;
         private AutonomousLegomatic legController;
+        public GameObject babySpawnParticleEffect;
+        public GameObject happySheepParticleEffect;
 
         void Awake() {
             base.init();
@@ -61,13 +63,17 @@ namespace Game {
             }
 
             foodEaten++;
-            // TODO: happy particle effect
+            if (foodEaten > foodCountToReproduce / 1.5) {
+                GameObject.Instantiate(happySheepParticleEffect, transform.position + Vector3.up, Quaternion.identity);
+            }
 
             if (foodEaten >= foodCountToReproduce) {
                 foodEaten -= foodCountToReproduce;
 
                 for (int i = 0; i < UnityEngine.Random.Range(1, 4); i++) {
-                    var position = Game.Utils.RandomNavSphere(transform.position, 1.5f, -1);
+                    var position = Game.Utils.RandomNavSphere(transform.position, 3f, -1);
+                    if (position.x == Mathf.Infinity) continue;
+                    GameObject.Instantiate(babySpawnParticleEffect, position, Quaternion.identity);
                     var newSheep = GameObject.Instantiate(this, position, UnityEngine.Random.rotation);
                     newSheep.foodEaten = babyFoodCount;
                 }
