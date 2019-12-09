@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 65765219691464564}
   - component: {fileID: 54084824539857918}
   - component: {fileID: 114753253678948012}
-  - component: {fileID: 7144363698563619191}
+  - component: {fileID: 4226430931356131138}
   m_Layer: 8
   m_Name: Sheep
   m_TagString: Untagged
@@ -145,7 +145,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1568038760296514}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -190,7 +190,7 @@ MonoBehaviour:
   footLayerMask:
     serializedVersion: 2
     m_Bits: 513
---- !u!114 &7144363698563619191
+--- !u!114 &4226430931356131138
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1568038760296514}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd3069e3f26a24f2bbb1cb111a7a062b, type: 3}
+  m_Script: {fileID: 11500000, guid: b96efa3353bb6485fbc7e0553d209649, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
@@ -209,6 +209,8 @@ MonoBehaviour:
   breathCycleTime: 2
   body: {fileID: 4683941620035444}
   breathHeight: 0.025
+  foodCountToReproduce: 5
+  babyFoodCount: -5
 --- !u!1 &1668475154609184
 GameObject:
   m_ObjectHideFlags: 0

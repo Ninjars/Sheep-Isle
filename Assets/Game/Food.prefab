@@ -43,7 +43,7 @@ ParticleSystem:
   serializedVersion: 6
   lengthInSec: 5
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 2
   cullingMode: 1
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -14231,7 +14231,7 @@ ParticleSystem:
   serializedVersion: 6
   lengthInSec: 5
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 2
   cullingMode: 1
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -18969,7 +18969,7 @@ ParticleSystem:
   serializedVersion: 6
   lengthInSec: 5
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 2
   cullingMode: 1
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -23650,7 +23650,7 @@ ParticleSystem:
   serializedVersion: 6
   lengthInSec: 2
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 2
   cullingMode: 1
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -28340,7 +28340,7 @@ ParticleSystem:
   serializedVersion: 6
   lengthInSec: 1
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 2
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -33066,7 +33066,7 @@ ParticleSystem:
   serializedVersion: 6
   lengthInSec: 5
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 2
   cullingMode: 1
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -37724,7 +37724,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7084633550164014945}
   - component: {fileID: -3142246455303503030}
-  m_Layer: 0
+  - component: {fileID: 3032568429200304550}
+  m_Layer: 10
   m_Name: Food
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37759,7 +37760,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f78fee0c78ff1bf4f9bfb7bef254b740, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onDestroyEffect: {fileID: 187180, guid: ab6043a4469bc4f75ac1182c8d02ef46, type: 3}
   bouncingObject: {fileID: 2533274061571050685}
+  bounceHeight: 0.5
+  eatingRange: 1.5
+--- !u!136 &3032568429200304550
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4683966987726455956}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.75
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!1 &5848860999392153464
 GameObject:
   m_ObjectHideFlags: 0

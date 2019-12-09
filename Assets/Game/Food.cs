@@ -1,21 +1,56 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public class Food : MonoBehaviour {
+namespace Game {
+    public class Food : MonoBehaviour {
 
-    public Transform bouncingObject;
-    public float bounceHeight = 0.5f;
+        public GameObject onDestroyEffect;
+        public Transform bouncingObject;
+        public float bounceHeight = 0.5f;
+        [SerializeField]
+        private float eatingRange = 1.5f;
 
-    private Vector3 initialObjPos;
-    private float timer;
+        private Vector3 initialObjPos;
+        private float bounceTimer;
 
-    void Start() {
-        initialObjPos = bouncingObject.position;
-        timer = 0;
-    }
+        void Start() {
+            initialObjPos = bouncingObject.position;
+            bounceTimer = 0;
+            SheepAgent[] sheep = FindObjectsOfType<SheepAgent>();
 
-    void Update() {
-        timer += Time.deltaTime;
-        timer = timer % (2 * Mathf.PI);
-        bouncingObject.transform.position = new Vector3(initialObjPos.x, initialObjPos.y + bounceHeight * Mathf.Sin(timer), initialObjPos.z);
+            if (sheep.Length == 0) GameObject.Destroy(this);
+
+            Array.Sort(sheep, new Comparison<SheepAgent>((a, b) =>
+                (transform.position - a.transform.position).sqrMagnitude
+                    .CompareTo((transform.position - b.transform.position).sqrMagnitude))
+            );
+            bool wasSet = false;
+            for (int i = 0; i < sheep.Length; i++) {
+                wasSet = sheep[i].setFoodTarget(this);
+                if (wasSet) break;
+            }
+            if (!wasSet) GameObject.Destroy(this);
+        }
+
+        private void OnTriggerEnter(Collider other) {
+            var sheep = other.gameObject.GetComponent<SheepAgent>();
+            if (sheep == null) return;
+            sheep.onFoodEaten(this);
+            GameObject.Destroy(gameObject);
+        }   
+
+        void Update() {
+            bounceTimer += Time.deltaTime;
+            bounceTimer = bounceTimer % (2 * Mathf.PI);
+            bouncingObject.transform.position = new Vector3(initialObjPos.x, initialObjPos.y + bounceHeight * Mathf.Sin(bounceTimer), initialObjPos.z);
+        }
+
+        public float getEatingRange() {
+            return eatingRange;
+        }
+
+        private void OnDestroy() {
+            GameObject.Instantiate(onDestroyEffect, transform.position, Quaternion.identity);
+        }
     }
 }
