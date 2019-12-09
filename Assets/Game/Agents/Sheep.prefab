@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 114753253678948012}
   - component: {fileID: 7144363698563619191}
   m_Layer: 8
-  m_Name: FlockAgent
+  m_Name: Sheep
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -189,7 +189,7 @@ MonoBehaviour:
   footPrefab: {fileID: 1859814081827106, guid: a6d2cbcfecefc4e3a850f8bf6d802506, type: 3}
   footLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 513
 --- !u!114 &7144363698563619191
 MonoBehaviour:
   m_ObjectHideFlags: 0
