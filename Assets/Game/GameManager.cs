@@ -8,7 +8,8 @@ namespace Game {
         public SheepAgent sheepPrefab;
         public int initialSheepCount = 3;
         public float spawnRadius = 30;
-        public MouseOrbiterImproved cameraController;
+        public MouseOrbiterImproved inGameCameraController;
+        public MenuCameraController menuCameraController;
         private InteractionController interactionController;
         private float autosaveTimer;
         private float autosaveInterval = 120;
@@ -108,12 +109,14 @@ namespace Game {
         }
 
         public void onMenuVisible() {
-            cameraController.enabled = false;
+            inGameCameraController.enabled = false;
+            menuCameraController.enabled = true;
             interactionController.enabled = false;
         }
 
         public void onMenuHidden() {
-            cameraController.enabled = true;
+            inGameCameraController.enabled = true;
+            menuCameraController.enabled = false;
             interactionController.enabled = true;
         }
 

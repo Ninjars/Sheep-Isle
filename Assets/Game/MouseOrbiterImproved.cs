@@ -54,8 +54,8 @@ public class MouseOrbiterImproved : MonoBehaviour {
             Vector3 negDistance = new Vector3(0.0f, 0.0f, -distance);
             Vector3 position = rotation * negDistance + target.position;
 
-            transform.rotation = rotation;
-            transform.position = position;
+            transform.rotation = Quaternion.SlerpUnclamped(transform.rotation, rotation, 0.1f);
+            transform.position = Vector3.Slerp(transform.position, position, 0.1f);
         }
     }
 
