@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Doozy.Engine;
 using UnityEngine;
 
 namespace Game {
@@ -27,12 +28,11 @@ namespace Game {
             autosaveTimer += Time.deltaTime;
             if (autosaveTimer > autosaveInterval) {
                 autosaveTimer = 0;
-                var success = saveIsland();
-                if (!success) {
-                    Debug.LogError("failed to save game!");
-                } else {
-                    Debug.Log("updated save");
-                }
+                onSaveEvent();
+            }
+
+            if (Input.GetKey("escape")) {
+                GameEventManager.ProcessGameEvent(new GameEventMessage("MENU"));
             }
         }
 
@@ -48,12 +48,34 @@ namespace Game {
             sheep.foodEaten = foodLevel;
         }
 
-        private void displayMenu() {
-
+        public void onResetEvent() {
+            SheepAgent[] allSheep = FindObjectsOfType<SheepAgent>();
+            foreach (var sheep in allSheep) {
+                GameObject.Destroy(sheep.gameObject);
+            }
+            Food[] allFood = FindObjectsOfType<Food>();
+            foreach (var food in allFood) {
+                GameObject.Destroy(food.gameObject);
+            }
+            spawnInitialSheep();
         }
 
-        private void displayGame() {
+        public void onSaveEvent() {
+            var success = saveIsland();
+            if (!success) {
+                Debug.LogError("failed to save game!");
+            } else {
+                autosaveTimer = 0;
+                Debug.Log("updated save");
+            }
+        }
 
+        public void onExitEvent() {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
         }
 
         #region save functions
@@ -75,18 +97,6 @@ namespace Game {
             SaveGame saveGame = new SaveGame();
             saveGame.sheepLevels = sheepLevels;
             return SaveGameSystem.SaveGame(saveGame, saveGameName);
-        }
-
-        private void resetIsland() {
-            SheepAgent[] allSheep = FindObjectsOfType<SheepAgent>();
-            foreach (var sheep in allSheep) {
-                GameObject.Destroy(sheep.gameObject);
-            }
-            Food[] allFood = FindObjectsOfType<Food>();
-            foreach (var food in allFood) {
-                GameObject.Destroy(food.gameObject);
-            }
-            spawnInitialSheep();
         }
 
         #endregion
