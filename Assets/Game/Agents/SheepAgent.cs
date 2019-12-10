@@ -15,7 +15,7 @@ namespace Game {
         private Vector3 initialObjPos;
         private float breathTimer = -1;
         private float breathCycleCurrent;
-        private int foodEaten;
+        public int foodEaten;
         public int foodCountToReproduce = 5;
         public int babyFoodCount = -5;
         private float baseBabyScale = 0.33f;
