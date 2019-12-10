@@ -8,10 +8,13 @@ namespace Game {
         public SheepAgent sheepPrefab;
         public int initialSheepCount = 3;
         public float spawnRadius = 30;
+        public MouseOrbiterImproved cameraController;
+        private InteractionController interactionController;
         private float autosaveTimer;
         private float autosaveInterval = 120;
 
         void Start() {
+            interactionController = GetComponent<InteractionController>();
             if (SaveGameSystem.DoesSaveGameExist(saveGameName)) {
                 var success = loadIsland();
                 if (!success) {
@@ -21,6 +24,32 @@ namespace Game {
 
             } else {
                 spawnInitialSheep();
+            }
+            GameEventMessage.AddListener((GameEventMessage message) => onGameMessage(message.EventName));
+        }
+
+        private void onGameMessage(string message) {
+            switch (message) {
+                case "EXIT": {
+                    onExitEvent();
+                    break;
+                }
+                case "SAVE": {
+                    onSaveEvent();
+                    break;
+                }
+                case "RESET": {
+                    onResetEvent();
+                    break;
+                }
+                case "MENU-VISIBLE": {
+                    onMenuVisible();
+                    break;
+                }
+                case "MENU-HIDDEN": {
+                    onMenuHidden();
+                    break;
+                }
             }
         }
 
@@ -76,6 +105,16 @@ namespace Game {
 #else
             Application.Quit();
 #endif
+        }
+
+        public void onMenuVisible() {
+            cameraController.enabled = false;
+            interactionController.enabled = false;
+        }
+
+        public void onMenuHidden() {
+            cameraController.enabled = true;
+            interactionController.enabled = true;
         }
 
         #region save functions
