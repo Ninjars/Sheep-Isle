@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using Aura2API;
 using Doozy.Engine;
 using UnityEngine;
 
@@ -10,12 +12,18 @@ namespace Game {
         public float spawnRadius = 30;
         public MouseOrbiterImproved inGameCameraController;
         public MenuCameraController menuCameraController;
+
+        public AuraCamera auraCamera;
+        public GameObject winterParticles;
+        public GameObject summerParticles;
+
         private InteractionController interactionController;
         private float autosaveTimer;
         private float autosaveInterval = 120;
 
         void Start() {
             interactionController = GetComponent<InteractionController>();
+            onWinterSettingsSelected();
             if (SaveGameSystem.DoesSaveGameExist(saveGameName)) {
                 var success = loadIsland();
                 if (!success) {
@@ -49,6 +57,14 @@ namespace Game {
                 }
                 case "MENU-HIDDEN": {
                     onMenuHidden();
+                    break;
+                }
+                case "SUMMER": {
+                    onSummerSettingsSelected();
+                    break;
+                }
+                case "WINTER": {
+                    onWinterSettingsSelected();
                     break;
                 }
             }
@@ -106,6 +122,28 @@ namespace Game {
 #else
             Application.Quit();
 #endif
+        }
+
+        private void onSummerSettingsSelected() {
+            AuraPreset.ApplySunnyDayPreset();
+            var settings = auraCamera.frustumSettings.BaseSettings;
+            settings.density = 0.1f;
+            settings.scattering = 0.1f;
+            settings.ambientLightingStrength = 3f;
+            auraCamera.frustumSettings.BaseSettings = settings;
+            winterParticles.SetActive(false);
+            summerParticles.SetActive(true);
+        }
+
+        private void onWinterSettingsSelected() {
+            AuraPreset.ApplySnowyDayPreset();
+            var settings = auraCamera.frustumSettings.BaseSettings;
+            settings.density = 0.2f;
+            settings.scattering = 1f;
+            settings.ambientLightingStrength = 2f;
+            auraCamera.frustumSettings.BaseSettings = settings;
+            winterParticles.SetActive(true);
+            summerParticles.SetActive(false);
         }
 
         public void onMenuVisible() {
