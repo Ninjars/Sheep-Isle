@@ -20,8 +20,6 @@ namespace Game {
         public AmbienceController ambientSoundController;
 
         private InteractionController interactionController;
-        private float autosaveTimer;
-        private float autosaveInterval = 120;
         private bool isSpring;
 
         void Start() {
@@ -75,12 +73,6 @@ namespace Game {
         }
 
         private void Update() {
-            autosaveTimer += Time.deltaTime;
-            if (autosaveTimer > autosaveInterval) {
-                autosaveTimer = 0;
-                onSaveEvent();
-            }
-
             if (Input.GetKey("escape")) {
                 GameEventManager.ProcessGameEvent(new GameEventMessage("MENU"));
             }
@@ -111,6 +103,7 @@ namespace Game {
                 GameObject.Destroy(food.gameObject);
             }
             spawnInitialSheep();
+            onSaveEvent();
         }
 
         public void onSaveEvent() {
@@ -118,7 +111,6 @@ namespace Game {
             if (!success) {
                 Debug.LogError("failed to save game!");
             } else {
-                autosaveTimer = 0;
                 Debug.Log("updated save");
             }
         }

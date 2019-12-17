@@ -36,6 +36,8 @@ namespace Game {
             sheep.onFoodEaten(this);
             GameObject.Instantiate(onDestroyEffect, transform.position, Quaternion.identity);
             GameObject.Destroy(gameObject);
+
+            FindObjectOfType<GameManager>().onSaveEvent();
         }   
 
         void Update() {
