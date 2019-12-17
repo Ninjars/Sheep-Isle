@@ -6,7 +6,18 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace Game {
     [Serializable]
     public class SaveGame {
-        public int[] sheepLevels;
+        public SheepData[] sheepData;
+
+        [Serializable]
+        public class SheepData {
+            public int level;
+            public int voice;
+
+            public SheepData(int level, int voice) {
+                this.level = level;
+                this.voice = voice;
+            }
+        }
     }
 
     public static class SaveGameSystem {

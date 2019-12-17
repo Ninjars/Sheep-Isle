@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Game {
+    [RequireComponent(typeof(AudioSource))]
     public class SheepAgent : BaseAgent {
         private float currentDelayTime;
         private float nextActionDelay;
@@ -22,11 +24,19 @@ namespace Game {
         private AutonomousLegomatic legController;
         public GameObject babySpawnParticleEffect;
         public GameObject happySheepParticleEffect;
+        public SheepSounds sheepSounds;
+        private AudioSource audioSource;
+        private AudioClip voice;
+        private int voiceIndex = -1;
 
         void Awake() {
             base.init();
+            audioSource = GetComponent<AudioSource>();
             legController = GetComponent<AutonomousLegomatic>();
             initialObjPos = body.localPosition;
+            if (voiceIndex < 0) {
+                setVoice(UnityEngine.Random.Range(0, sheepSounds.sounds.Count));
+            }
         }
 
         void Start() {
@@ -44,6 +54,24 @@ namespace Game {
                     currentDelayTime = 0;
                 }
             }
+        }
+
+        internal void setVoice(int voiceIndex) {
+            if (voiceIndex < 0 || voiceIndex >= sheepSounds.sounds.Count) {
+                Debug.Log($"invalid voice index {voiceIndex}");
+                voiceIndex = UnityEngine.Random.Range(0, sheepSounds.sounds.Count);
+            }
+            this.voiceIndex = voiceIndex;
+            voice = sheepSounds.sounds[voiceIndex];
+            audioSource.clip = voice;
+        }
+
+        internal int getVoice() {
+            return voiceIndex;
+        }
+
+        public void baa() {
+            audioSource.Play();
         }
 
         public bool setFoodTarget(Food target) {
@@ -105,6 +133,6 @@ namespace Game {
             Vector3 targetPosition = Game.Utils.RandomNavSphere(transform.position, wanderDistance, -1);
             nextActionDelay = UnityEngine.Random.Range(minActionDelaySeconds, maxActionDelaySeconds);
             MoveToLocation(targetPosition);
-        } 
+        }
     }
 }

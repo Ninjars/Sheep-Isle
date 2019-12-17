@@ -84,14 +84,17 @@ namespace Game {
 
         private void spawnInitialSheep() {
             for (int i = 0; i < initialSheepCount; i++) {
-                spawnSheep(0);
+                spawnSheep(0, -1);
             }
         }
 
-        private void spawnSheep(int foodLevel) {
+        private void spawnSheep(int foodLevel, int voice) {
             var position = Game.Utils.RandomNavSphere(transform.position, spawnRadius, -1);
             var sheep = GameObject.Instantiate(sheepPrefab, position, UnityEngine.Random.rotation);
             sheep.foodEaten = foodLevel;
+            if (voice >= 0) {
+                sheep.setVoice(voice);
+            }
         }
 
         public void onResetEvent() {
@@ -165,17 +168,24 @@ namespace Game {
                 return false;
             }
 
-            foreach (var value in saveGame.sheepLevels) {
-                spawnSheep(value);
+            try {
+                foreach (var value in saveGame.sheepData) {
+                    spawnSheep(value.level, value.voice);
+                }
+            } catch(NullReferenceException e) {
+                Debug.Log("invalid save file");
+                SaveGameSystem.DeleteSaveGame(saveGameName);
+                return false;
             }
+
             return true;
         }
 
         private bool saveIsland() {
             SheepAgent[] allSheep = FindObjectsOfType<SheepAgent>();
-            int[] sheepLevels = allSheep.Select(sheep => sheep.foodEaten).ToArray();
+            SaveGame.SheepData[] sheepLevels = allSheep.Select(sheep => new SaveGame.SheepData(sheep.foodEaten, sheep.getVoice())).ToArray();
             SaveGame saveGame = new SaveGame();
-            saveGame.sheepLevels = sheepLevels;
+            saveGame.sheepData = sheepLevels;
             return SaveGameSystem.SaveGame(saveGame, saveGameName);
         }
 
