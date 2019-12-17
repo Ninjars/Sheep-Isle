@@ -17,6 +17,8 @@ namespace Game {
         public GameObject winterParticles;
         public GameObject summerParticles;
 
+        public AmbienceController ambientSoundController;
+
         private InteractionController interactionController;
         private float autosaveTimer;
         private float autosaveInterval = 120;
@@ -60,7 +62,7 @@ namespace Game {
                     break;
                 }
                 case "SUMMER": {
-                    onSummerSettingsSelected();
+                    onSpringSettingsSelected();
                     break;
                 }
                 case "WINTER": {
@@ -127,7 +129,7 @@ namespace Game {
 #endif
         }
 
-        private void onSummerSettingsSelected() {
+        private void onSpringSettingsSelected() {
             AuraPreset.ApplySunnyDayPreset();
             var settings = auraCamera.frustumSettings.BaseSettings;
             settings.density = 0.1f;
@@ -136,6 +138,7 @@ namespace Game {
             auraCamera.frustumSettings.BaseSettings = settings;
             winterParticles.SetActive(false);
             summerParticles.SetActive(true);
+            ambientSoundController.setToSpring();
         }
 
         private void onWinterSettingsSelected() {
@@ -147,6 +150,7 @@ namespace Game {
             auraCamera.frustumSettings.BaseSettings = settings;
             winterParticles.SetActive(true);
             summerParticles.SetActive(false);
+            ambientSoundController.setToWinter();
         }
 
         public void onMenuVisible() {
