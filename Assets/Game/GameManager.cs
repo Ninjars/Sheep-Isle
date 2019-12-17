@@ -22,18 +22,20 @@ namespace Game {
         private InteractionController interactionController;
         private float autosaveTimer;
         private float autosaveInterval = 120;
+        private bool isSpring;
 
         void Start() {
             interactionController = GetComponent<InteractionController>();
-            onWinterSettingsSelected();
             if (SaveGameSystem.DoesSaveGameExist(saveGameName)) {
                 var success = loadIsland();
                 if (!success) {
                     Debug.LogError("failed to load saved island");
+                    onWinterSettingsSelected();
                     spawnInitialSheep();
                 }
 
             } else {
+                onWinterSettingsSelected();
                 spawnInitialSheep();
             }
             GameEventMessage.AddListener((GameEventMessage message) => onGameMessage(message.EventName));
@@ -130,6 +132,7 @@ namespace Game {
         }
 
         private void onSpringSettingsSelected() {
+            isSpring = true;
             AuraPreset.ApplySunnyDayPreset();
             var settings = auraCamera.frustumSettings.BaseSettings;
             settings.density = 0.1f;
@@ -139,9 +142,11 @@ namespace Game {
             winterParticles.SetActive(false);
             summerParticles.SetActive(true);
             ambientSoundController.setToSpring();
+            onSaveEvent();
         }
 
         private void onWinterSettingsSelected() {
+            isSpring = false;
             AuraPreset.ApplySnowyDayPreset();
             var settings = auraCamera.frustumSettings.BaseSettings;
             settings.density = 0.2f;
@@ -151,6 +156,7 @@ namespace Game {
             winterParticles.SetActive(true);
             summerParticles.SetActive(false);
             ambientSoundController.setToWinter();
+            onSaveEvent();
         }
 
         public void onMenuVisible() {
@@ -176,6 +182,12 @@ namespace Game {
                 foreach (var value in saveGame.sheepData) {
                     spawnSheep(value.level, value.voice);
                 }
+                isSpring = saveGame.isSpring;
+                if (isSpring) {
+                    onSpringSettingsSelected();
+                } else {
+                    onWinterSettingsSelected();
+                }
             } catch(NullReferenceException e) {
                 Debug.Log("invalid save file");
                 SaveGameSystem.DeleteSaveGame(saveGameName);
@@ -190,6 +202,7 @@ namespace Game {
             SaveGame.SheepData[] sheepLevels = allSheep.Select(sheep => new SaveGame.SheepData(sheep.foodEaten, sheep.getVoice())).ToArray();
             SaveGame saveGame = new SaveGame();
             saveGame.sheepData = sheepLevels;
+            saveGame.isSpring = isSpring;
             return SaveGameSystem.SaveGame(saveGame, saveGameName);
         }
 

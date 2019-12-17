@@ -7,6 +7,7 @@ namespace Game {
     [Serializable]
     public class SaveGame {
         public SheepData[] sheepData;
+        public bool isSpring;
 
         [Serializable]
         public class SheepData {
