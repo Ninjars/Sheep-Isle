@@ -7,8 +7,7 @@ namespace Game {
         public GameObject onDestroyEffect;
         public Transform bouncingObject;
         public float bounceHeight = 0.5f;
-        [SerializeField]
-        private float eatingRange = 1.5f;
+        public float life = 60f;
 
         private Vector3 initialObjPos;
         private float bounceTimer;
@@ -18,7 +17,7 @@ namespace Game {
             bounceTimer = 0;
             SheepAgent[] sheep = FindObjectsOfType<SheepAgent>();
 
-            if (sheep.Length == 0) GameObject.Destroy(this);
+            if (sheep.Length == 0) GameObject.Destroy(gameObject);
 
             Array.Sort(sheep, new Comparison<SheepAgent>((a, b) =>
                 (transform.position - a.transform.position).sqrMagnitude
@@ -29,28 +28,26 @@ namespace Game {
                 wasSet = sheep[i].setFoodTarget(this);
                 if (wasSet) break;
             }
-            if (!wasSet) GameObject.Destroy(this);
         }
 
         private void OnTriggerEnter(Collider other) {
             var sheep = other.gameObject.GetComponent<SheepAgent>();
             if (sheep == null) return;
             sheep.onFoodEaten(this);
+            GameObject.Instantiate(onDestroyEffect, transform.position, Quaternion.identity);
             GameObject.Destroy(gameObject);
         }   
 
         void Update() {
+            life -= Time.deltaTime;
+            if (life < 0) {
+                GameObject.Destroy(gameObject);
+                return;
+            }
+
             bounceTimer += Time.deltaTime;
             bounceTimer = bounceTimer % (2 * Mathf.PI);
             bouncingObject.transform.position = new Vector3(initialObjPos.x, initialObjPos.y + bounceHeight * Mathf.Sin(bounceTimer), initialObjPos.z);
-        }
-
-        public float getEatingRange() {
-            return eatingRange;
-        }
-
-        private void OnDestroy() {
-            GameObject.Instantiate(onDestroyEffect, transform.position, Quaternion.identity);
         }
     }
 }
