@@ -16,6 +16,8 @@ namespace Game {
         private float baaInterval;
         public Transform body;
         public float breathHeight = 0.025f;
+        public LayerMask foodMask;
+        private Collider[] foodHits;
         private Food foodTarget;
         private Vector3 initialObjPos;
         private float breathTimer = -1;
@@ -41,6 +43,7 @@ namespace Game {
                 setVoice(UnityEngine.Random.Range(0, sheepSounds.sounds.Count));
             }
             baaInterval = UnityEngine.Random.Range(minBaaInterval, maxBaaInterval) * 0.5f;
+            foodHits = new Collider[5];
         }
 
         void Start() {
@@ -55,8 +58,10 @@ namespace Game {
             if (foodTarget == null) {
                 currentDelayTime += Time.deltaTime;
                 if (currentDelayTime > nextActionDelay) {
-                    moveToRandomPoint();
-                    currentDelayTime = 0;
+                    if (!checkForFood()) {
+                        moveToRandomPoint();
+                        currentDelayTime = 0;
+                    }
                 }
             }
         }
@@ -115,6 +120,29 @@ namespace Game {
 
             } else if (foodEaten <= 0) {
                 updateScale();
+            }
+        }
+
+        private bool checkForFood() {
+            int hits = Physics.OverlapSphereNonAlloc(transform.position, 10, foodHits, foodMask);
+            Food closest = null;
+            float distance = float.PositiveInfinity;
+            Debug.Log($"hit count {hits}");
+            for (int i = 0; i < hits && i < foodHits.Length; i++) {
+                var coll = foodHits[i];
+                var dist = (coll.transform.position - transform.position).sqrMagnitude;
+                if (closest == null || dist < distance) {
+                    closest = coll.gameObject.GetComponent<Food>();
+                    if (closest != null) {
+                        distance = dist;
+                    }
+                }
+            }
+            if (closest == null) {
+                return false;
+            } else {
+                setFoodTarget(closest);
+                return true;
             }
         }
 

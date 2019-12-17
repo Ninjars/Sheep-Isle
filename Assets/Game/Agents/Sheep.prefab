@@ -212,6 +212,9 @@ MonoBehaviour:
   maxBaaInterval: 90
   body: {fileID: 4683941620035444}
   breathHeight: 0.025
+  foodMask:
+    serializedVersion: 2
+    m_Bits: 1024
   foodEaten: 0
   foodCountToReproduce: 5
   babyFoodCount: -5
