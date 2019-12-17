@@ -27,7 +27,7 @@ namespace Game {
         private AutonomousLegomatic legController;
         public GameObject babySpawnParticleEffect;
         public GameObject happySheepParticleEffect;
-        public SheepSounds sheepSounds;
+        public SoundBank sheepSounds;
         private AudioSource audioSource;
         private AudioClip voice;
         private int voiceIndex = -1;
