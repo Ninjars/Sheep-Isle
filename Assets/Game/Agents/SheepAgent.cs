@@ -40,6 +40,7 @@ namespace Game {
             if (voiceIndex < 0) {
                 setVoice(UnityEngine.Random.Range(0, sheepSounds.sounds.Count));
             }
+            baaInterval = UnityEngine.Random.Range(minBaaInterval, maxBaaInterval) * 0.5f;
         }
 
         void Start() {
