@@ -11,6 +11,9 @@ namespace Game {
         public float minActionDelaySeconds = 3;
         public float maxActionDelaySeconds = 10;
         public float breathCycleTime = 2;
+        public float minBaaInterval = 15;
+        public float maxBaaInterval = 90;
+        private float baaInterval;
         public Transform body;
         public float breathHeight = 0.025f;
         private Food foodTarget;
@@ -46,6 +49,7 @@ namespace Game {
 
         void Update() {
             updateBreathing();
+            updateBaa();
 
             if (foodTarget == null) {
                 currentDelayTime += Time.deltaTime;
@@ -71,7 +75,9 @@ namespace Game {
         }
 
         public void baa() {
-            audioSource.Play();
+            if (!audioSource.isPlaying) {
+                audioSource.Play();
+            }
         }
 
         public bool setFoodTarget(Food target) {
@@ -127,6 +133,14 @@ namespace Game {
             var fraction = 1 - breathTimer / breathCycleCurrent;
             var value = fraction * (2 * Mathf.PI);
             body.localPosition = new Vector3(initialObjPos.x, initialObjPos.y + breathHeight * Mathf.Sin(value), initialObjPos.z);
+        }
+
+        private void updateBaa() {
+            baaInterval -= Time.deltaTime;
+            if (baaInterval < 0) {
+                baaInterval = UnityEngine.Random.Range(minBaaInterval, maxBaaInterval);
+                baa();
+            }
         }
 
         private void moveToRandomPoint() {

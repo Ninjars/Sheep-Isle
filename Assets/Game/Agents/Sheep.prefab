@@ -208,6 +208,8 @@ MonoBehaviour:
   minActionDelaySeconds: 3
   maxActionDelaySeconds: 10
   breathCycleTime: 2
+  minBaaInterval: 15
+  maxBaaInterval: 90
   body: {fileID: 4683941620035444}
   breathHeight: 0.025
   foodEaten: 0
