@@ -142,7 +142,10 @@ MonoBehaviour:
   - Category: General
     InstantAction: 0
     Name: In Game
-  m_onEnterHideViews: []
+  m_onEnterHideViews:
+  - Category: General
+    InstantAction: 0
+    Name: Main Menu
   m_onExitShowViews: []
   m_onExitHideViews:
   - Category: General
@@ -758,10 +761,7 @@ MonoBehaviour:
     Name: Main Menu
   m_onEnterHideViews: []
   m_onExitShowViews: []
-  m_onExitHideViews:
-  - Category: General
-    InstantAction: 0
-    Name: Main Menu
+  m_onExitHideViews: []
 --- !u!114 &6972265294678467850
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -24,6 +24,7 @@ namespace Game {
 
         void Start() {
             interactionController = GetComponent<InteractionController>();
+            GameEventMessage.AddListener((GameEventMessage message) => onGameMessage(message.EventName));
             if (SaveGameSystem.DoesSaveGameExist(saveGameName)) {
                 var success = loadIsland();
                 if (!success) {
