@@ -151,6 +151,8 @@ namespace Game {
             scale = baseBabyScale + (1 - baseBabyScale) * scale;
             transform.localScale = new Vector3(scale, scale, scale);
             legController.scaleFeet(transform.localScale);
+
+            audioSource.pitch = 1 + (1-scale) * 0.5f;
         }
 
         private void updateBreathing() {
