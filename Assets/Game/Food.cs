@@ -2,22 +2,29 @@
 using UnityEngine;
 
 namespace Game {
+    [RequireComponent(typeof(AudioSource))]
     public class Food : MonoBehaviour {
 
         public GameObject onDestroyEffect;
         public Transform bouncingObject;
         public float bounceHeight = 0.5f;
-        public float life = 60f;
+        public float life = 30f;
+        public SoundBank placementSounds;
+        private AudioSource audioSource;
 
         private Vector3 initialObjPos;
         private float bounceTimer;
 
         void Start() {
+            audioSource = GetComponent<AudioSource>();
             initialObjPos = bouncingObject.position;
             bounceTimer = 0;
             SheepAgent[] sheep = FindObjectsOfType<SheepAgent>();
 
-            if (sheep.Length == 0) GameObject.Destroy(gameObject);
+            if (sheep.Length == 0) {
+                GameObject.Destroy(gameObject);
+                return;
+            }
 
             Array.Sort(sheep, new Comparison<SheepAgent>((a, b) =>
                 (transform.position - a.transform.position).sqrMagnitude
@@ -28,6 +35,9 @@ namespace Game {
                 wasSet = sheep[i].setFoodTarget(this);
                 if (wasSet) break;
             }
+
+            audioSource.clip = placementSounds.getRandomSound();
+            audioSource.Play();
         }
 
         private void OnTriggerEnter(Collider other) {

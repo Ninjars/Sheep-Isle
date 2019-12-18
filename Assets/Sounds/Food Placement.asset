@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff7aff32ebe3a67428f8ce27bab8cf43, type: 3}
+  m_Name: Food Placement
+  m_EditorClassIdentifier: 
+  sounds:
+  - {fileID: 8300000, guid: 3c54700cceffbb640be3259ad671adf1, type: 3}
+  - {fileID: 8300000, guid: cdcfc67929ae3a047b7eaea26fc107c5, type: 3}
+  - {fileID: 8300000, guid: 819f2af97edfbd641819060845621467, type: 3}
+  - {fileID: 8300000, guid: 19eb23a6f456591469d92d8eb754dc3d, type: 3}
+  - {fileID: 8300000, guid: 1c58756cbf41d76479bac606d55926c0, type: 3}
