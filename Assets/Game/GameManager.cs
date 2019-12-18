@@ -3,6 +3,7 @@ using System.Linq;
 using Aura2API;
 using Doozy.Engine;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game {
     public class GameManager : MonoBehaviour {
@@ -17,6 +18,8 @@ namespace Game {
         public GameObject winterParticles;
         public GameObject summerParticles;
 
+        public Text startGameButton;
+
         public AmbienceController ambientSoundController;
 
         private InteractionController interactionController;
@@ -28,16 +31,24 @@ namespace Game {
             if (SaveGameSystem.DoesSaveGameExist(saveGameName)) {
                 var success = loadIsland();
                 if (!success) {
-                    Debug.LogError("failed to load saved island");
+                    Debug.Log("failed to load saved island");
                     onWinterSettingsSelected();
                     spawnInitialSheep();
+                    startGameButton.text = "Start";
+                } else {
+                    SheepAgent[] allSheep = FindObjectsOfType<SheepAgent>();
+                    if (allSheep.Length == initialSheepCount) {
+                        startGameButton.text = "Start";
+                    } else {
+                        startGameButton.text = "Continue";
+                    }
                 }
 
             } else {
                 onWinterSettingsSelected();
                 spawnInitialSheep();
+                startGameButton.text = "Start";
             }
-            GameEventMessage.AddListener((GameEventMessage message) => onGameMessage(message.EventName));
         }
 
         private void onGameMessage(string message) {
@@ -162,6 +173,7 @@ namespace Game {
             inGameCameraController.enabled = true;
             menuCameraController.enabled = false;
             interactionController.enabled = true;
+            startGameButton.text = "Continue";
         }
 
         #region save functions
@@ -181,7 +193,7 @@ namespace Game {
                 } else {
                     onWinterSettingsSelected();
                 }
-            } catch(NullReferenceException e) {
+            } catch (NullReferenceException e) {
                 Debug.Log("invalid save file");
                 SaveGameSystem.DeleteSaveGame(saveGameName);
                 return false;
