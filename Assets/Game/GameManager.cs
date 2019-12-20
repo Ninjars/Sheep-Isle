@@ -140,7 +140,7 @@ namespace Game {
             AuraPreset.ApplySunnyDayPreset();
             var settings = auraCamera.frustumSettings.BaseSettings;
             settings.density = 0.1f;
-            settings.scattering = 0.1f;
+            settings.scattering = 0.2f;
             settings.ambientLightingStrength = 3f;
             auraCamera.frustumSettings.BaseSettings = settings;
             winterParticles.SetActive(false);
