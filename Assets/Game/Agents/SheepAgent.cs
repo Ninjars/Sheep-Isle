@@ -148,7 +148,7 @@ namespace Game {
 
         private void updateScale() {
             float scale = 1 - (foodEaten / (float)babyFoodCount);
-            scale = baseBabyScale + (1 - baseBabyScale) * scale;
+            scale = Mathf.Min(1, baseBabyScale + (1 - baseBabyScale) * scale);
             transform.localScale = new Vector3(scale, scale, scale);
             legController.scaleFeet(transform.localScale);
 
