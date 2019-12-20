@@ -127,7 +127,6 @@ namespace Game {
             int hits = Physics.OverlapSphereNonAlloc(transform.position, 10, foodHits, foodMask);
             Food closest = null;
             float distance = float.PositiveInfinity;
-            Debug.Log($"hit count {hits}");
             for (int i = 0; i < hits && i < foodHits.Length; i++) {
                 var coll = foodHits[i];
                 var dist = (coll.transform.position - transform.position).sqrMagnitude;
