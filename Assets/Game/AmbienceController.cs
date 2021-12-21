@@ -8,6 +8,7 @@ public class AmbienceController : MonoBehaviour {
     public AudioSource windAmbience;
     
     public void setToSpring() {
+        Debug.Log("setToSpring()");
         springMusic.mute = false;
         winterMusic.mute = true;
         foreach (var source in birdSongSources) {
