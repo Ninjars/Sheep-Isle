@@ -15,6 +15,7 @@ public class MouseOrbiterImproved : MonoBehaviour {
     public float distanceMax = 15f;
 
     private bool isOrbiting;
+    private bool isActive;
 
     float x = 0.0f;
     float y = 0.0f;
@@ -28,6 +29,7 @@ public class MouseOrbiterImproved : MonoBehaviour {
     void Update() {
         if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2") || Input.GetButtonDown("Fire3")) {
             isOrbiting = true;
+            isActive = true;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Confined;
         }
@@ -40,7 +42,7 @@ public class MouseOrbiterImproved : MonoBehaviour {
     }
 
     void LateUpdate() {
-        if (target) {
+        if (target && isActive) {
             if (isOrbiting) {
                 x += Input.GetAxis("Mouse X") * xSpeed * distance * 0.02f;
                 y -= Input.GetAxis("Mouse Y") * ySpeed * 0.02f;

@@ -12,6 +12,7 @@ namespace Game {
         public int initialSheepCount = 3;
         public float spawnRadius = 30;
         public MouseOrbiterImproved inGameCameraController;
+        public TouchOrbiter touchCameraController;
         public MenuCameraController menuCameraController;
 
         public AuraCamera auraCamera;
@@ -164,16 +165,21 @@ namespace Game {
         }
 
         public void onMenuVisible() {
-            inGameCameraController.enabled = false;
+            setOrbitEnabled(false);
             menuCameraController.enabled = true;
             interactionController.enabled = false;
         }
 
         public void onMenuHidden() {
-            inGameCameraController.enabled = true;
+            setOrbitEnabled(true);
             menuCameraController.enabled = false;
             interactionController.enabled = true;
             startGameButton.text = "Continue";
+        }
+
+        private void setOrbitEnabled(bool isEnabled) {
+            inGameCameraController.enabled = isEnabled;
+            touchCameraController.enabled = isEnabled;
         }
 
         #region save functions
