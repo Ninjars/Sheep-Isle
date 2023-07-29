@@ -102,7 +102,7 @@ namespace Game {
 				foreach (var foot in rightFeet) {
 					GameObject.Destroy(foot.gameObject);
 				}
-			} catch (Exception e) {
+			} catch (Exception) {
 				// this silences annoying error logging when stopping the app, probably due to how objects are being destroyed
 			}
 		}

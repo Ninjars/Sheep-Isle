@@ -193,7 +193,7 @@ namespace Game {
                 } else {
                     onWinterSettingsSelected();
                 }
-            } catch (NullReferenceException e) {
+            } catch (NullReferenceException) {
                 Debug.Log("invalid save file");
                 SaveGameSystem.DeleteSaveGame(saveGameName);
                 return false;
