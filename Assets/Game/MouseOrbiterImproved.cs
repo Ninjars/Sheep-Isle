@@ -26,13 +26,13 @@ public class MouseOrbiterImproved : MonoBehaviour {
     }
     
     void Update() {
-        if (Input.GetButtonDown("Fire2") || Input.GetButtonDown("Fire3")) {
+        if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2") || Input.GetButtonDown("Fire3")) {
             isOrbiting = true;
             Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.lockState = CursorLockMode.Confined;
         }
 
-        if (Input.GetButtonUp("Fire2") || Input.GetButtonUp("Fire3")) {
+        if (Input.GetButtonUp("Fire1") || Input.GetButtonUp("Fire2") || Input.GetButtonUp("Fire3")) {
             isOrbiting = false;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
