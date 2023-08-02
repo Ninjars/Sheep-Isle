@@ -586,7 +586,7 @@ PlayerSettings:
   scriptingDefineSymbols:
     1: AURA_IN_PROJECT;dUI_MANAGER;AURA_IN_SCENEVIEW
     4: dUI_MANAGER
-    7: dUI_MANAGER
+    7: dUI_MANAGER;AURA_IN_PROJECT
     13: dUI_MANAGER
     14: dUI_MANAGER
     19: dUI_MANAGER
