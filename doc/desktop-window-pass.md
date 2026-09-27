@@ -19,6 +19,8 @@ Updated 27 September 2026
 - On 27 September, the user confirmed middle-drag movement, right-drag orbit, wheel zoom, and tray Show/Exit. Restarting the player retained zoom and pin state. A user-dragged window position was saved and restored, with a small shift to keep the full window on screen. An intentionally off-screen saved position was also moved into the visible work area. A later empty-pixel click targeted the desktop behind the source player, confirming click-through after the control changes.
 - The source player remained responsive during a longer check. The user confirmed the revised −10° low-angle limit and comfortable framing across the wheel zoom range. The control work and checks are tracked in the [desktop controls plan](desktop-controls-plan.md).
 
+During the unit 2 sheep test on 27 September, a shell-launched player remained active and audible while the user saw no window or tray icon. That test process was terminated. Sheep now stop active baa playback and do not begin another while the window is hidden (commit `3a0a22e`); the updated Unity 6 player built successfully. Tray visibility and restore in an interactively launched player are being rechecked.
+
 ## Remaining checks and next work
 
 - Keyboard shortcuts currently require player focus, so click the island before pressing `P` or `Esc`.

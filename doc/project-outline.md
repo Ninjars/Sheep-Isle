@@ -21,6 +21,7 @@ This is the next implementation pass. Keep the player comfortable to use alongsi
 - [x] Rotate the camera around the island with a **right-button drag**, with a limited vertical angle. User checked the feel and requested a low-angle limit of −10 degrees.
 - [x] Switch to a perspective camera and move it toward and away from the island with the **mouse wheel**. The new controller draws on the distance-related input and smoothing in [`MouseOrbiterImproved.cs`](../Assets/Game/MouseOrbiterImproved.cs); user checked the zoom feel in a Windows player.
 - [x] Recheck click-through, framing, edge quality, pinning, input focus, and longer-running performance in the Windows build after these controls change. The borderless player stayed responsive, a transparent-pixel click reached the desktop, and the user confirmed camera framing at the low-angle and zoom limits.
+- [ ] Recheck that the tray icon is discoverable and can restore the current sheep player. A test player kept running and baaing without an obvious tray icon on 27 September; an interactive launch check is pending.
 
 ## 2. Bring back the sheep, simply
 
