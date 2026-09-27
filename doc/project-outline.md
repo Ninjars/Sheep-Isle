@@ -37,7 +37,9 @@ Keep the old food and reproduction coupling out of the new scene. Petting in thi
 The transferred island is a prototype. Build a slightly larger island with distinct biome segments that camera rotation can reveal as different scenes.
 
 - [ ] Sketch the biome layout, camera views, routes, and sheep navigation before replacing the placeholder geometry.
+- [ ] Reserve an island location for an in-world time control, such as a sundial or clock, as part of the biome layout.
 - [ ] Decide whether sheep scatter across the island, follow the camera between biomes, or combine the two behaviors.
+- [ ] Establish a shared stylized material and lighting baseline for the new biomes, including camera and transparency settings that can support the later day/night and weather pass.
 - [ ] Create toon-shaded grass geometry dotted with flowers that reacts as sheep pass through it.
 - [ ] Add more environmental assets and subtle animations appropriate to each biome.
 - [ ] Add animated water for ponds, streams, and other water features.
@@ -53,6 +55,18 @@ These systems are later design passes. Keep population bounded and accessories e
 - [ ] Add an island departure point, such as a magic floating dock for flying boats. At or above the adult cap, allow an adult sheep to go on an adventure.
 - [ ] After a real-time interval (roughly an hour, possibly randomized), deliver a persistent, reviewable postcard image with a sheep selfie and one new accessory unlock.
 - [ ] Let any unlocked accessory be applied freely to multiple sheep.
+
+## 5. Give the island time, weather, and seasons
+
+Build this visual pass once the replacement island's geometry and materials are stable. It can proceed before or alongside the later flock systems. Keep effects readable against different desktop backgrounds and within the transparent window.
+
+- [ ] Define the visual treatment for daylight, dusk, night, and representative weather across the biome camera views.
+- [ ] Add a stylized day/night cycle driven by the system clock by default. Tune environmental lighting, camera settings, and shaders so the island and sheep remain legible throughout the cycle.
+- [ ] Make the planned sundial or clock interactive so it can set the visual time of day, with a clear way to return to the live clock.
+- [ ] Create weather and seasonal visual states, including sunny, overcast, foggy, and wet conditions. Decide which effects vary by biome and season before adding them.
+- [ ] Keep fog, rain, and other effects within the island's visible footprint where practical; check transparent edges, click-through, and clipping at camera and zoom limits.
+- [ ] Investigate free weather data sources for an optional real-weather default. A fixed location is acceptable initially; decide update frequency and a graceful offline fallback before integrating a source.
+- [ ] Validate the day/night and weather combinations in a Windows player for readability, visual quality, and idle performance.
 
 ## Supporting idle systems and presentation
 
@@ -72,3 +86,5 @@ Place these into playable slices as the core interactions settle. Earlier adopti
 - Flock cap, the meaning and duration of “recently petted,” lamb growth timing, and adventure timing.
 - How postcard images are composed, stored, and reviewed, including save size and repeat adventures.
 - Wool rates, prices, optional click bonus, offline progress, and where the idle loop fits in the rollout.
+- How the clock's manual time setting returns to system time, whether it persists, and how system time maps to the island's day/night cycle.
+- How seasons advance, which location any optional real-weather lookup uses, and what the island shows when weather data is unavailable.
