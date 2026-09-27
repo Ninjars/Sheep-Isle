@@ -48,12 +48,15 @@ Never mark a task, feature, unit, or milestone complete merely because implement
 - [Initial flock plan](plans/initial-flock.md)
 - [Navigation authoring reference](reference/navigation-authoring.md)
 
-### Existing historical records
+### Completed reports
+
+- [Desktop companion scene](reports/companion-scene.md)
+
+### Existing records awaiting consolidation
 
 These records predate the formal structure and will be consolidated by the active documentation plan:
 
 - [Unity 6 handoff](sheep-isle-handoff.md)
-- [Companion scene pass](scene-pass.md)
 - [Desktop window pass](desktop-window-pass.md)
 - [Desktop controls plan](desktop-controls-plan.md)
 
