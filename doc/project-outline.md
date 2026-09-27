@@ -28,19 +28,23 @@ The window and camera controls are implemented. Keep the player comfortable to u
 Keep the old food and reproduction coupling out of the new scene. Petting in this pass is a visual response, without additional progression requirements. Preserve the original free-floating square feet and steer around the placeholder island's trees and rocks. A more expressive petting animation can follow in a later visual pass. See the [desktop sheep plan](sheep-pass-plan.md) for work slices and validation.
 
 - [x] Migrate a simplified cuboid sheep prefab and a three-sheep flock into the companion scene, using the original free-floating square Foot prefab. The Unity 6 player builds and shows sheep; the final foot-motion check remains below.
-- [x] Add bounded NavMesh wandering with idle pauses. The user observed sheep moving in the first player. Tree and rock clearance was added after they crossed scenery; its route check remains below.
+- [x] Add bounded NavMesh wandering with idle pauses. The user observed sheep moving in the first player. Approximate runtime clearance was added, but the user confirmed sheep still cross large trees, rocks, and water on the placeholder island.
 - [x] Restore occasional baas and add a focused-window `S` sound-effects toggle with brief on/off feedback. The user confirmed playback and the toggle in the first player. Individual pitch variation, the saved setting, and silence while hidden are implemented in the newer build.
 - [x] Let a click pet a sheep: it turns toward the camera and performs a short hop and head tilt. The user confirmed this response is fine for the first pass; a richer animation remains later polish.
-- [ ] Check the latest player: original feet should float and step independently, sheep should steer around trunks and rocks, baas should vary in pitch, the sound setting should survive relaunch, and hiding should silence them.
+- [ ] Check the revised feet in a player: they should settle beneath the body corners and plant ahead of the sheep's motion instead of trailing.
+- [ ] Check variable baa pitch, sound preference after relaunch, and silence while the island is hidden.
 - [ ] Recheck sheep movement, audio, and petting alongside the desktop window controls in the final unit 2 player.
 
 ## 3. Design and build the replacement island
 
 The transferred island is a prototype. Build a slightly larger island with distinct biome segments that camera rotation can reveal as different scenes.
 
+The prototype NavMesh omits much of the visible scenery and water. Use the [navigation authoring reference](navigation-authoring.md) when designing the replacement island; the current runtime obstacle shapes are a temporary approximation.
+
 - [ ] Sketch the biome layout, camera views, routes, and sheep navigation before replacing the placeholder geometry.
 - [ ] Reserve an island location for an in-world time control, such as a sundial or clock, as part of the biome layout.
 - [ ] Decide whether sheep scatter across the island, follow the camera between biomes, or combine the two behaviors.
+- [ ] Author and bake sheep navigation from deliberate walkable ground and solid trunk/rock footprints, with ponds and streams marked non-walkable. Validate routes and body clearance across biomes. See the [navigation authoring reference](navigation-authoring.md).
 - [ ] Establish a shared stylized material and lighting baseline for the new biomes, including camera and transparency settings that can support the later day/night and weather pass.
 - [ ] Create toon-shaded grass geometry dotted with flowers that reacts as sheep pass through it.
 - [ ] Add more environmental assets and subtle animations appropriate to each biome.

@@ -57271,7 +57271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12573ae9ae6f30c41ae7720e94c99185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DesktopIslandNavigation
-  islandData: {fileID: 23800000, guid: 46b2605148b9aee40a20a5ec834ce163, type: 2}
+  islandSurface: {fileID: 1124465984}
 --- !u!4 &2010154212
 Transform:
   m_ObjectHideFlags: 0

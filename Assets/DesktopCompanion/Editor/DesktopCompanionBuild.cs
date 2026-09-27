@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.AI;
+using Unity.AI.Navigation;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
@@ -179,7 +180,12 @@ public static class DesktopCompanionBuild
         }
         var nav = navigation.GetComponent<DesktopIslandNavigation>();
         if (nav == null) nav = navigation.AddComponent<DesktopIslandNavigation>();
-        nav.SetData(data);
+        var islandSurfaceObject = scene.GetRootGameObjects()
+            .Single(root => root.name == "Island Navigation");
+        var surface = islandSurfaceObject.GetComponent<NavMeshSurface>();
+        if (surface == null || surface.navMeshData != data)
+            throw new Exception("The island NavMeshSurface does not reference its baked navigation data.");
+        nav.SetSurface(surface);
         var transforms = scene.GetRootGameObjects()
             .SelectMany(root => root.GetComponentsInChildren<Transform>(true)).ToArray();
         var trees = transforms.Single(t => t.name == "Tree Group");
@@ -194,45 +200,38 @@ public static class DesktopCompanionBuild
 
         flock = new GameObject("Desktop Flock");
         SceneManager.MoveGameObjectToScene(flock, scene);
-        var temporaryNavigation = NavMesh.AddNavMeshData(data);
-        try
-        {
-            var triangles = NavMesh.CalculateTriangulation();
-            if (triangles.indices.Length < 9)
-                throw new Exception("Desktop island navigation has too few triangles for the flock.");
-            var candidates = new List<Vector3>();
-            for (var i = 0; i < triangles.indices.Length; i += 3)
-                candidates.Add((triangles.vertices[triangles.indices[i]] +
-                    triangles.vertices[triangles.indices[i + 1]] +
-                    triangles.vertices[triangles.indices[i + 2]]) / 3f);
-            var center = Vector3.zero;
-            foreach (var candidate in candidates) center += candidate;
-            center /= candidates.Count;
-            candidates.Sort((a, b) =>
-                (a - center).sqrMagnitude.CompareTo((b - center).sqrMagnitude));
+        surface.AddData();
+        var triangles = NavMesh.CalculateTriangulation();
+        if (triangles.indices.Length < 9)
+            throw new Exception("Desktop island navigation has too few triangles for the flock.");
+        var candidates = new List<Vector3>();
+        for (var i = 0; i < triangles.indices.Length; i += 3)
+            candidates.Add((triangles.vertices[triangles.indices[i]] +
+                triangles.vertices[triangles.indices[i + 1]] +
+                triangles.vertices[triangles.indices[i + 2]]) / 3f);
+        var center = Vector3.zero;
+        foreach (var candidate in candidates) center += candidate;
+        center /= candidates.Count;
+        candidates.Sort((a, b) =>
+            (a - center).sqrMagnitude.CompareTo((b - center).sqrMagnitude));
 
-            var chosen = new List<Vector3>();
-            foreach (var candidate in candidates)
-            {
-                if (chosen.Any(other => (other - candidate).sqrMagnitude < 64f)) continue;
-                if (!NavMesh.SamplePosition(candidate, out var hit, 1f, NavMesh.AllAreas)) continue;
-                chosen.Add(hit.position);
-                if (chosen.Count == 3) break;
-            }
-            if (chosen.Count < 3)
-                throw new Exception("Could not find three separated sheep positions on the island.");
-            for (var i = 0; i < chosen.Count; i++)
-            {
-                var sheep = (GameObject)PrefabUtility.InstantiatePrefab(sheepPrefab, scene);
-                sheep.name = "Companion Sheep " + (i + 1);
-                sheep.transform.SetParent(flock.transform, true);
-                sheep.transform.position = chosen[i];
-                sheep.transform.rotation = Quaternion.Euler(0f, i * 113f, 0f);
-            }
-        }
-        finally
+        var chosen = new List<Vector3>();
+        foreach (var candidate in candidates)
         {
-            if (temporaryNavigation.valid) temporaryNavigation.Remove();
+            if (chosen.Any(other => (other - candidate).sqrMagnitude < 64f)) continue;
+            if (!NavMesh.SamplePosition(candidate, out var hit, 1f, NavMesh.AllAreas)) continue;
+            chosen.Add(hit.position);
+            if (chosen.Count == 3) break;
+        }
+        if (chosen.Count < 3)
+            throw new Exception("Could not find three separated sheep positions on the island.");
+        for (var i = 0; i < chosen.Count; i++)
+        {
+            var sheep = (GameObject)PrefabUtility.InstantiatePrefab(sheepPrefab, scene);
+            sheep.name = "Companion Sheep " + (i + 1);
+            sheep.transform.SetParent(flock.transform, true);
+            sheep.transform.position = chosen[i];
+            sheep.transform.rotation = Quaternion.Euler(0f, i * 113f, 0f);
         }
     }
 

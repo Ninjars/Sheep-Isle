@@ -1,30 +1,26 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using Unity.AI.Navigation;
 
 [DefaultExecutionOrder(-100)]
 public sealed class DesktopIslandNavigation : MonoBehaviour
 {
-    [SerializeField] private NavMeshData islandData;
-    private NavMeshDataInstance instance;
+    [SerializeField] private NavMeshSurface islandSurface;
 
-    public void SetData(NavMeshData data) { islandData = data; }
-
-    private void OnEnable()
-    {
-        if (islandData == null)
-        {
-            Debug.LogError("The desktop island has no baked navigation data.");
-            return;
-        }
-        instance = NavMesh.AddNavMeshData(islandData);
-    }
+    public void SetSurface(NavMeshSurface surface) { islandSurface = surface; }
 
     private IEnumerator Start()
     {
         // Agents are stored disabled in the prefab so they do not attempt to
-        // bind before navigation data and static obstacle carving are ready.
+        // bind before the surface and static obstacle carving are ready.
         yield return new WaitForSeconds(0.75f);
+        if (islandSurface == null || islandSurface.navMeshData == null ||
+            !islandSurface.isActiveAndEnabled)
+        {
+            Debug.LogError("The desktop island has no active baked NavMeshSurface.");
+            yield break;
+        }
         foreach (var sheep in FindObjectsByType<CompanionSheep>(FindObjectsSortMode.None))
         {
             var agent = sheep.GetComponent<NavMeshAgent>();
@@ -38,10 +34,5 @@ public sealed class DesktopIslandNavigation : MonoBehaviour
             if (!agent.isOnNavMesh)
                 Debug.LogError(sheep.name + " could not bind to the island NavMesh.");
         }
-    }
-
-    private void OnDisable()
-    {
-        if (instance.valid) instance.Remove();
     }
 }

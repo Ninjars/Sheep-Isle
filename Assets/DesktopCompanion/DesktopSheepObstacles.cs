@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-// The old island has visible trees and rocks but almost no colliders. Carve
-// modest clearance around their trunks/bodies without using foliage bounds.
+// Temporary clearance for the transferred island. Its visible trees and rocks
+// have almost no colliders. The replacement island should bake authored solid
+// footprints and water exclusions into a NavMeshSurface instead.
 [DefaultExecutionOrder(-200)]
 public sealed class DesktopSheepObstacles : MonoBehaviour
 {
