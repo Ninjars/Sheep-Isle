@@ -1,96 +1,101 @@
+---
+type: roadmap
+status: active
+updated: 2026-09-27
+---
+
 # Sheep Isle project outline
 
-Updated 27 September 2026. This is the living, high-level plan for the Windows desktop companion. Check an item only after its behavior has been validated; add or revise items as the design develops. Link detailed design, implementation, and test notes from the relevant section.
+This is the sole current roadmap for the Windows desktop companion. Check a feature, unit, or milestone only after its acceptance behaviour has been observed. Detailed plans state intended work, reports preserve completed evidence, and references describe current technical guidance.
 
 ## Direction and current state
 
-Sheep Isle is a calm floating island that lives on the desktop. Cuboid sheep wander, occasionally baa, and respond to attention. Interaction should be pleasant but optional, with a bounded flock and no care chores. The original food placement and food-driven reproduction systems are not part of this direction. The island currently in the companion scene is a placeholder.
+Sheep Isle is a calm floating island that lives on the desktop. Cuboid sheep wander, occasionally baa, and respond to attention. Interaction should be pleasant but optional, with a bounded flock and no care chores. The legacy food-placement and food-driven reproduction systems are not part of this direction.
 
-- [x] Upgrade enough of the project to compile and build with Unity 6. See the [migration handoff](sheep-isle-handoff.md) and [scene pass](scene-pass.md).
-- [x] Create a separate desktop companion scene containing the transferred island geometry, camera, light, and navigation surface. Keep the original main scene intact. See the [scene pass](scene-pass.md).
-- [x] Prove a Windows transparent player with click-through empty pixels, pin toggle, window dragging, and exit control. The user confirmed click-through, pinning, dragging, and exit. See the [desktop window pass](desktop-window-pass.md).
-- [x] Remove the visible title bar and border from the player while retaining transparent-pixel click-through. Verified in a Windows player on 27 September 2026; see the [desktop window pass](desktop-window-pass.md).
+The Desktop prototype is nearly complete. Its transparent window, controls, companion scene, and basic flock exist; a final integrated flock validation remains. The island in that scene is a placeholder for a larger biome-based replacement.
 
-## 1. Finish the desktop window and camera
+State persistence belongs to the feature or unit that owns the state. New documents and terminology follow the [documentation conventions](README.md) and root [product glossary](../CONTEXT.md).
 
-The window and camera controls are implemented. Keep the player comfortable to use alongside other Windows applications. See the [desktop controls plan](desktop-controls-plan.md) for decisions, work slices, and validation.
+## Milestone 1: Desktop prototype
 
-- [x] Provide a tray icon with Show/Hide and Exit, plus a focused-window `H` shortcut to hide the island. `H` hid the Windows player; the user confirmed tray Show and Exit.
-- [x] Remember window position, pin state, camera angle, and zoom across launches, with sensible recovery if a saved position is off screen. Restart checks passed for zoom, pin, user-dragged position, and off-screen recovery.
-- [x] Move the window with a **middle-button drag** instead of right-button drag. User checked the new control in a Windows player.
-- [x] Rotate the camera around the island with a **right-button drag**, with a limited vertical angle. User checked the feel and requested a low-angle limit of −10 degrees.
-- [x] Switch to a perspective camera and move it toward and away from the island with the **mouse wheel**. The new controller draws on the distance-related input and smoothing in [`MouseOrbiterImproved.cs`](../Assets/Game/MouseOrbiterImproved.cs); user checked the zoom feel in a Windows player.
-- [x] Recheck click-through, framing, edge quality, pinning, input focus, and longer-running performance in the Windows build after these controls change. The borderless player stayed responsive, a transparent-pixel click reached the desktop, and the user confirmed camera framing at the low-angle and zoom limits.
-- [ ] Recheck that the tray icon is discoverable and can restore the current sheep player. A test player kept running and baaing without an obvious tray icon on 27 September; an interactive launch check is pending.
+Deliver a comfortable transparent desktop companion with a small living flock. The milestone remains open until the initial flock's outstanding player checks are observed.
 
-## 2. Bring back the sheep, simply
+- [x] **Unit — Unity 6 migration.** Upgrade far enough to compile, open the companion scene, and build the Windows player while preserving the legacy main scene. See the [migration report](reports/unity-6-migration.md).
+- [x] **Unit — Desktop companion scene.** Transfer the island geometry into a separate Unity scene with its own camera, lighting, and prototype navigation data. See the [scene report](reports/companion-scene.md).
+- [x] **Feature — Desktop window and controls.** Provide borderless transparency, click-through empty pixels, pinning, window movement, camera orbit and zoom, saved state, and tray hide/restore/exit actions. See the [desktop window and controls report](reports/desktop-window-and-controls.md).
+- [ ] **Feature — Initial flock.** Present three wandering cuboid sheep with baas, sound control, petting, and planted square feet. Core behaviour is implemented and partly observed; audio persistence, hidden silence, tray restoration, and the integrated regression remain. See the [awaiting-validation plan](plans/initial-flock.md).
 
-Keep the old food and reproduction coupling out of the new scene. Petting in this pass is a visual response, without additional progression requirements. Preserve the original free-floating square feet. The replacement island needs an authored NavMesh that steers sheep around trees, rocks, and water. A more expressive petting animation can follow in a later visual pass. See the [desktop sheep plan](sheep-pass-plan.md) for work slices and validation.
+### Desktop prototype decisions still needed
 
-- [x] Migrate a simplified cuboid sheep prefab and a three-sheep flock into the companion scene, using the original free-floating square Foot prefab. The Unity 6 player builds and shows sheep; foot placement was confirmed below.
-- [x] Add bounded NavMesh wandering with idle pauses. The user observed sheep moving in the first player. Approximate runtime clearance was added, but the user confirmed sheep still cross large trees, rocks, and water on the placeholder island.
-- [x] Restore occasional baas and add a focused-window `S` sound-effects toggle with brief on/off feedback. The user confirmed playback and the toggle in the first player. Individual pitch variation, the saved setting, and silence while hidden are implemented in the newer build.
-- [x] Let a click pet a sheep: it turns toward the camera and performs a short hop and head tilt. The user confirmed this response is fine for the first pass; a richer animation remains later polish.
-- [x] Check the revised feet in a player: they settle beneath the body corners and plant ahead of the sheep's motion instead of trailing. The user confirmed the positioning on 27 September 2026.
-- [ ] Check variable baa pitch, sound preference after relaunch, and silence while the island is hidden.
-- [ ] Recheck sheep movement, audio, and petting alongside the desktop window controls in the final unit 2 player.
+- Confirm that variable baa pitch is distinct, the sound-effects preference survives relaunch, and hiding the island produces silence.
+- Confirm that the tray icon is discoverable and restores the current sheep player.
+- Recheck sheep movement, audio, petting, click-through, pinning, camera controls, movement, hide/restore, and exit together in the final prototype player.
 
-## 3. Design and build the replacement island
+## Milestone 2: Replacement island
 
-The transferred island is a prototype. Build a slightly larger island with distinct biome segments that camera rotation can reveal as different scenes.
+Replace the transferred placeholder with a slightly larger island whose biome segments reveal distinct scenes as the camera rotates. Reserve a natural location for the Living world's interactive time control.
 
-The prototype NavMesh omits much of the visible scenery and water. Use the [navigation authoring reference](navigation-authoring.md) when designing the replacement island; the current runtime obstacle shapes are a temporary approximation.
+- [ ] **Feature — Biome island.** Design the biome layout, camera views, routes, scenery, and readable silhouette before replacing the placeholder geometry.
+- [ ] **Unit — Authored sheep navigation.** Build walkable ground and solid trunk/rock footprints, mark ponds and streams non-walkable, bake one sheep surface, and validate body clearance and routes across biomes. Follow the [navigation authoring reference](reference/navigation-authoring.md).
+- [ ] **Unit — Shared visual baseline.** Establish stylized materials, lighting, camera, and transparency settings that can support later day/night and weather states.
+- [ ] **Feature — Responsive grass and flowers.** Create toon-shaded grass geometry dotted with flowers that reacts as sheep move through it.
+- [ ] **Feature — Water and animated scenery.** Add ponds, streams, environmental assets, and subtle biome-appropriate animation without compromising transparent edges.
+- [ ] **Feature — Island decorations.** Provide authored decoration locations that keep navigation routes and camera views clear.
 
-- [ ] Sketch the biome layout, camera views, routes, and sheep navigation before replacing the placeholder geometry.
-- [ ] Reserve an island location for an in-world time control, such as a sundial or clock, as part of the biome layout.
-- [ ] Decide whether sheep scatter across the island, follow the camera between biomes, or combine the two behaviors.
-- [ ] Author and bake sheep navigation from deliberate walkable ground and solid trunk/rock footprints, with ponds and streams marked non-walkable. Validate routes and body clearance across biomes. See the [navigation authoring reference](navigation-authoring.md).
-- [ ] Establish a shared stylized material and lighting baseline for the new biomes, including camera and transparency settings that can support the later day/night and weather pass.
-- [ ] Create toon-shaded grass geometry dotted with flowers that reacts as sheep pass through it.
-- [ ] Add more environmental assets and subtle animations appropriate to each biome.
-- [ ] Add animated water for ponds, streams, and other water features.
-- [ ] Check readability, frame rate, and transparent window edges across the new views.
+### Replacement island decisions still needed
 
-## 4. Grow the flock and its stories
+- Choose biome themes, island scale, camera compositions, and the routes connecting the scenes.
+- Decide whether sheep scatter across the island, follow the viewed biome, or combine both behaviours.
+- Set the visible body clearance, path widths, shoreline treatment, and rules for bridges or separated regions.
+- Choose the location reserved for the future sundial, clock, or equivalent time control.
+- Decide which decoration locations belong in the base island and how movable decorations affect navigation.
 
-These systems are later design passes. Keep population bounded and accessories easy to use once unlocked.
+### Replacement island acceptance
 
-- [ ] Add sheep accessories: hats, shoes, wool geometry styles, and wool dye textures. Decide how selection and persistence work.
-- [ ] Define the adult population cap and a controlled lambing rule: recently petted, happy sheep may produce lambs only below the cap.
-- [ ] Let lambs grow into adults with time and attention; decide the timing and how growth is shown.
-- [ ] Add an island departure point, such as a magic floating dock for flying boats. At or above the adult cap, allow an adult sheep to go on an adventure.
-- [ ] After a real-time interval (roughly an hour, possibly randomized), deliver a persistent, reviewable postcard image with a sheep selfie and one new accessory unlock.
-- [ ] Let any unlocked accessory be applied freely to multiple sheep.
+- Sheep route around solid scenery and never cross authored water exclusions.
+- Grass, water, scenery, and decorations remain readable throughout the camera limits.
+- Essential geometry does not clip the colour-key window, and frame rate remains suitable for an idle desktop companion.
 
-## 5. Give the island time, weather, and seasons
+## Milestone 3: Flock progression and stories
 
-Build this visual pass once the replacement island's geometry and materials are stable. It can proceed before or alongside the later flock systems. Keep effects readable against different desktop backgrounds and within the transparent window.
+Grow the flock without care chores or unbounded population. Cosmetics and story rewards should remain easy to use once unlocked.
 
-- [ ] Define the visual treatment for daylight, dusk, night, and representative weather across the biome camera views.
-- [ ] Add a stylized day/night cycle driven by the system clock by default. Tune environmental lighting, camera settings, and shaders so the island and sheep remain legible throughout the cycle.
-- [ ] Make the planned sundial or clock interactive so it can set the visual time of day, with a clear way to return to the live clock.
-- [ ] Create weather and seasonal visual states, including sunny, overcast, foggy, and wet conditions. Decide which effects vary by biome and season before adding them.
-- [ ] Keep fog, rain, and other effects within the island's visible footprint where practical; check transparent edges, click-through, and clipping at camera and zoom limits.
-- [ ] Investigate free weather data sources for an optional real-weather default. A fixed location is acceptable initially; decide update frequency and a graceful offline fallback before integrating a source.
-- [ ] Validate the day/night and weather combinations in a Windows player for readability, visual quality, and idle performance.
+- [ ] **Unit — Persistent flock state.** Define and save sheep identity, age, growth, applied cosmetics, adventure state, postcards, wool, and other progression state as their owning features arrive.
+- [ ] **Feature — Sheep accessories.** Add hats, shoes, wool geometry styles, and wool dye textures, with unlocked items freely reusable across multiple sheep.
+- [ ] **Feature — Bounded lambing and growth.** Allow recently petted, happy sheep to produce lambs only below an adult cap, then let lambs grow through time and attention.
+- [ ] **Feature — Adventures and postcards.** At or above the adult cap, let an adult depart from an island location such as a magic floating dock and later return with a persistent, reviewable postcard and one new accessory unlock.
+- [ ] **Feature — Wool economy.** Accumulate wool automatically, allow a small optional interaction bonus, and use wool for cosmetics or decorations without requiring repeated clicking.
 
-## Supporting idle systems and presentation
+### Flock progression decisions still needed
 
-Place these into playable slices as the core interactions settle. Earlier adoption and rehoming ideas need review against the newer lambing and adventure loop before implementation.
+- Set the adult population cap and define the meaning and duration of “recently petted” and “happy.”
+- Choose lamb growth timing, how growth is shown, and any offline-growth limit.
+- Decide whether deliberate adoption or rehoming still has a role alongside bounded lambing and adventures.
+- Define adventure timing, including whether the rough one-hour interval varies, and whether sheep may repeat adventures.
+- Define postcard composition, image storage, review UI, file size, and persistence.
+- Define accessory selection, saved application, unlock rules, and reuse across sheep.
+- Set wool rates, prices, optional interaction bonus, offline accumulation limit, and exact uses.
 
-- [ ] Add passive wool accumulation. Consider a small optional click bonus without making repeated clicking necessary; define rates and any offline limit.
-- [ ] Decide what wool buys or unlocks once the accessory and decoration loops are clearer.
-- [ ] Add island decorations at authored placement spots, keeping navigation and views clear.
-- [ ] Add music with its own remembered toggle, separate from the sound-effects toggle.
-- [ ] Persist flock, lamb growth, accessories, postcards, wool, decorations, window position, pin state, and audio preferences as the relevant systems arrive.
-- [ ] Decide whether deliberate adoption or rehoming still has a role alongside bounded lambing and adventures.
+## Milestone 4: Living world
 
-## Open design choices
+Let the stable replacement island express time, weather, seasons, and music while remaining legible against varied desktop backgrounds.
 
-- Tray icon discoverability in the current sheep player. Hide/restore and camera persistence decisions are in the [desktop controls plan](desktop-controls-plan.md).
-- Biome themes, island scale, and sheep behavior when the camera changes scenes.
-- Flock cap, the meaning and duration of “recently petted,” lamb growth timing, and adventure timing.
-- How postcard images are composed, stored, and reviewed, including save size and repeat adventures.
-- Wool rates, prices, optional click bonus, offline progress, and where the idle loop fits in the rollout.
-- How the clock's manual time setting returns to system time, whether it persists, and how system time maps to the island's day/night cycle.
-- How seasons advance, which location any optional real-weather lookup uses, and what the island shows when weather data is unavailable.
+- [ ] **Unit — Environmental state model.** Define daylight, dusk, night, representative weather, seasonal states, transitions, and the lighting/material parameters they control.
+- [ ] **Feature — Day/night and time control.** Drive visual time from the system clock by default and let an in-world sundial or clock set a manual visual time with a clear return to live time.
+- [ ] **Feature — Weather and seasons.** Present sunny, overcast, foggy, wet, and seasonal conditions, keeping effects within the island footprint where practical.
+- [ ] **Unit — Optional real-weather integration.** Evaluate a free weather source, fixed or configurable location, update frequency, caching, and a graceful offline fallback before integration.
+- [ ] **Feature — Music control.** Add music with a remembered control separate from sound effects.
+
+### Living world decisions still needed
+
+- Define how system time maps to island time and whether a manual time setting persists between launches.
+- Define how the in-world control returns to the live clock and communicates its current mode.
+- Choose how seasons advance and which environmental effects vary by biome or season.
+- Choose the real-weather location policy, refresh interval, cached-data lifetime, and offline presentation.
+- Set visual-quality and idle-performance budgets for combined night, fog, rain, and seasonal states.
+
+### Living world acceptance
+
+- Sheep, scenery, and controls remain legible throughout representative time, weather, and season combinations.
+- Fog, rain, and other effects respect the island's visible footprint and camera limits without damaging transparent edges or click-through behaviour.
+- A Windows player remains visually stable and suitably efficient during an extended idle check.
