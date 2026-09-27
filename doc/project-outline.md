@@ -13,13 +13,13 @@ Sheep Isle is a calm floating island that lives on the desktop. Cuboid sheep wan
 
 ## 1. Finish the desktop window and camera
 
-This is the next implementation pass. Keep the player comfortable to use alongside other Windows applications.
+This is the next implementation pass. Keep the player comfortable to use alongside other Windows applications. See the [desktop controls plan](desktop-controls-plan.md) for decisions, work slices, and validation.
 
-- [ ] Provide a convenient hide and restore control; decide how to restore when the island is hidden.
-- [ ] Remember window position and pin state across launches, with sensible recovery if a saved position is off screen.
+- [ ] Provide a tray icon with Show/Hide and Exit, plus a focused-window `H` shortcut to hide the island.
+- [ ] Remember window position, pin state, camera angle, and zoom across launches, with sensible recovery if a saved position is off screen.
 - [ ] Move the window with a **middle-button drag** instead of the current right-button drag.
 - [ ] Rotate the camera around the island with a **right-button drag**. Define sensible angle limits and input behavior over transparent pixels.
-- [ ] Move the camera toward and away from the island with the **mouse wheel**. Review [`MouseOrbiterImproved.cs`](../Assets/Game/MouseOrbiterImproved.cs) from the original scene for its distance-scaled orbit input and smoothed positioning; adapt the useful feel to the new camera and window.
+- [ ] Switch to a perspective camera and move it toward and away from the island with the **mouse wheel**. Review [`MouseOrbiterImproved.cs`](../Assets/Game/MouseOrbiterImproved.cs) from the original scene for its distance-scaled orbit input and smoothed positioning; adapt the useful feel to the new camera and window.
 - [ ] Recheck click-through, framing, edge quality, pinning, input focus, and longer-running performance in the Windows build after these controls change.
 
 ## 2. Bring back the sheep, simply
@@ -67,7 +67,7 @@ Place these into playable slices as the core interactions settle. Earlier adopti
 
 ## Open design choices
 
-- Exact window size, hide/restore mechanism, camera limits, and whether camera orientation and distance persist.
+- Exact window size, camera limits, and tray icon presentation. Hide/restore and camera persistence decisions are in the [desktop controls plan](desktop-controls-plan.md).
 - Biome themes, island scale, and sheep behavior when the camera changes scenes.
 - Flock cap, the meaning and duration of “recently petted,” lamb growth timing, and adventure timing.
 - How postcard images are composed, stored, and reviewed, including save size and repeat adventures.
