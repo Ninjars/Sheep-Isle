@@ -51,14 +51,13 @@ Never mark a task, feature, unit, or milestone complete merely because implement
 ### Completed reports
 
 - [Desktop companion scene](reports/companion-scene.md)
+- [Desktop window and controls](reports/desktop-window-and-controls.md)
 
 ### Existing records awaiting consolidation
 
 These records predate the formal structure and will be consolidated by the active documentation plan:
 
 - [Unity 6 handoff](sheep-isle-handoff.md)
-- [Desktop window pass](desktop-window-pass.md)
-- [Desktop controls plan](desktop-controls-plan.md)
 
 ## Plan template
 
