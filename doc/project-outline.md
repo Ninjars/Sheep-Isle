@@ -18,7 +18,7 @@ This is the next implementation pass. Keep the player comfortable to use alongsi
 - [ ] Provide a tray icon with Show/Hide and Exit, plus a focused-window `H` shortcut to hide the island.
 - [ ] Remember window position, pin state, camera angle, and zoom across launches, with sensible recovery if a saved position is off screen.
 - [x] Move the window with a **middle-button drag** instead of right-button drag. User checked the new control in a Windows player.
-- [x] Rotate the camera around the island with a **right-button drag**, with a limited vertical angle. User checked the feel; the low-view limit was lowered by 10 degrees so the camera can approach the horizon more closely.
+- [x] Rotate the camera around the island with a **right-button drag**, with a limited vertical angle. User checked the feel and requested a low-angle limit of −10 degrees.
 - [x] Switch to a perspective camera and move it toward and away from the island with the **mouse wheel**. The new controller draws on the distance-related input and smoothing in [`MouseOrbiterImproved.cs`](../Assets/Game/MouseOrbiterImproved.cs); user checked the zoom feel in a Windows player.
 - [ ] Recheck click-through, framing, edge quality, pinning, input focus, and longer-running performance in the Windows build after these controls change.
 

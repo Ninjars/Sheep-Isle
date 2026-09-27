@@ -18,7 +18,7 @@ Updated 27 September 2026. This expands [unit 1 of the project outline](project-
 
 ## Progress
 
-- **Slice 1, 27 September:** the separate `DesktopOrbitCamera` changes the companion camera to perspective, orbits on right drag, and moves toward/away exponentially on wheel input. Window dragging now uses middle drag. The user checked all three controls in the Windows player and found the feel good; after clarification, the low-view pitch limit was lowered from 15 to 5 degrees, allowing a view closer to the horizon. The scene component was added through the Unity editor build tool, and an isolated Unity 6 player build succeeded. The source project build opened with the intended camera and remained borderless.
+- **Slice 1, 27 September:** the separate `DesktopOrbitCamera` changes the companion camera to perspective, orbits on right drag, and moves toward/away exponentially on wheel input. Window dragging now uses middle drag. The user checked all three controls in the Windows player and found the feel good; after a further test, they requested a low-view pitch limit of −10 degrees. The scene component was added through the Unity editor build tool, and an isolated Unity 6 player build succeeded. The source project build opened with the intended camera and remained borderless.
 
 ## Implementation boundaries
 

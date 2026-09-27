@@ -4,7 +4,7 @@ using UnityEngine;
 public sealed class DesktopOrbitCamera : MonoBehaviour
 {
     [SerializeField, Range(30f, 65f)] private float fieldOfView = 42f;
-    [SerializeField] private float minimumPitch = 5f;
+    [SerializeField] private float minimumPitch = -10f;
     [SerializeField] private float maximumPitch = 70f;
     [SerializeField] private float minimumDistance = 80f;
     [SerializeField] private float maximumDistance = 220f;
