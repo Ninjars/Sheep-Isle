@@ -13,7 +13,7 @@ Sheep Isle is a calm floating island that lives on the desktop. Cuboid sheep wan
 
 ## 1. Finish the desktop window and camera
 
-This is the next implementation pass. Keep the player comfortable to use alongside other Windows applications. See the [desktop controls plan](desktop-controls-plan.md) for decisions, work slices, and validation.
+The window and camera controls are implemented. Keep the player comfortable to use alongside other Windows applications. See the [desktop controls plan](desktop-controls-plan.md) for decisions, work slices, and validation.
 
 - [x] Provide a tray icon with Show/Hide and Exit, plus a focused-window `H` shortcut to hide the island. `H` hid the Windows player; the user confirmed tray Show and Exit.
 - [x] Remember window position, pin state, camera angle, and zoom across launches, with sensible recovery if a saved position is off screen. Restart checks passed for zoom, pin, user-dragged position, and off-screen recovery.
@@ -27,11 +27,12 @@ This is the next implementation pass. Keep the player comfortable to use alongsi
 
 Keep the old food and reproduction coupling out of the new scene. Petting in this pass is a visual response, without additional progression requirements. Preserve the original free-floating square feet and steer around the placeholder island's trees and rocks. A more expressive petting animation can follow in a later visual pass. See the [desktop sheep plan](sheep-pass-plan.md) for work slices and validation.
 
-- [ ] Migrate a simplified cuboid sheep prefab into the companion scene.
-- [ ] Migrate wandering behavior suitable for the island navigation surface.
-- [ ] Restore occasional baas. Add a focused-window keyboard toggle for sound effects, with a brief sound-on or sound-off icon below the island after each press. Remember the setting.
-- [ ] Let a click pet a sheep: it should look toward the camera and perform a cute animated response.
-- [ ] Validate sheep movement, audio, and petting in a Windows player while the desktop window controls remain usable.
+- [x] Migrate a simplified cuboid sheep prefab and a three-sheep flock into the companion scene, using the original free-floating square Foot prefab. The Unity 6 player builds and shows sheep; the final foot-motion check remains below.
+- [x] Add bounded NavMesh wandering with idle pauses. The user observed sheep moving in the first player. Tree and rock clearance was added after they crossed scenery; its route check remains below.
+- [x] Restore occasional baas and add a focused-window `S` sound-effects toggle with brief on/off feedback. The user confirmed playback and the toggle in the first player. Individual pitch variation, the saved setting, and silence while hidden are implemented in the newer build.
+- [x] Let a click pet a sheep: it turns toward the camera and performs a short hop and head tilt. The user confirmed this response is fine for the first pass; a richer animation remains later polish.
+- [ ] Check the latest player: original feet should float and step independently, sheep should steer around trunks and rocks, baas should vary in pitch, the sound setting should survive relaunch, and hiding should silence them.
+- [ ] Recheck sheep movement, audio, and petting alongside the desktop window controls in the final unit 2 player.
 
 ## 3. Design and build the replacement island
 
@@ -82,7 +83,7 @@ Place these into playable slices as the core interactions settle. Earlier adopti
 
 ## Open design choices
 
-- Exact window size, camera limits, and tray icon presentation. Hide/restore and camera persistence decisions are in the [desktop controls plan](desktop-controls-plan.md).
+- Tray icon discoverability in the current sheep player. Hide/restore and camera persistence decisions are in the [desktop controls plan](desktop-controls-plan.md).
 - Biome themes, island scale, and sheep behavior when the camera changes scenes.
 - Flock cap, the meaning and duration of “recently petted,” lamb growth timing, and adventure timing.
 - How postcard images are composed, stored, and reviewed, including save size and repeat adventures.
