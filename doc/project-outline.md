@@ -23,11 +23,12 @@ Deliver a comfortable transparent desktop companion with a small living flock. T
 - [x] **Unit — Unity 6 migration.** Upgrade far enough to compile, open the companion scene, and build the Windows player while preserving the legacy main scene. See the [migration report](reports/unity-6-migration.md).
 - [x] **Unit — Desktop companion scene.** Transfer the island geometry into a separate Unity scene with its own camera, lighting, and prototype navigation data. See the [scene report](reports/companion-scene.md).
 - [x] **Feature — Desktop window and controls.** Provide borderless transparency, click-through empty pixels, pinning, window movement, camera orbit and zoom, saved state, and tray hide/restore/exit actions. See the [desktop window and controls report](reports/desktop-window-and-controls.md).
-- [ ] **Feature — Initial flock.** Present three wandering cuboid sheep with baas, sound control, petting, and planted square feet. Core behaviour is implemented and partly observed; audio persistence, hidden silence, tray restoration, and the integrated regression remain. See the [awaiting-validation plan](plans/initial-flock.md).
+- [ ] **Feature — Initial flock.** Present three wandering cuboid sheep with baas, sound control and feedback, petting, and planted square feet. Core behaviour is implemented and partly observed; audio persistence, hidden silence, feedback legibility, tray restoration, and the integrated regression remain. See the [awaiting-validation plan](plans/initial-flock.md).
 
 ### Desktop prototype decisions still needed
 
 - Confirm that variable baa pitch is distinct, the sound-effects preference survives relaunch, and hiding the island produces silence.
+- Confirm that the brief sound icon remains readable against light and dark desktop backgrounds.
 - Confirm that the tray icon is discoverable and restores the current sheep player.
 - Recheck sheep movement, audio, petting, click-through, pinning, camera controls, movement, hide/restore, and exit together in the final prototype player.
 
@@ -63,7 +64,7 @@ Grow the flock without care chores or unbounded population. Cosmetics and story 
 - [ ] **Unit — Persistent flock state.** Define and save sheep identity, age, growth, applied cosmetics, adventure state, postcards, wool, and other progression state as their owning features arrive.
 - [ ] **Feature — Sheep accessories.** Add hats, shoes, wool geometry styles, and wool dye textures, with unlocked items freely reusable across multiple sheep.
 - [ ] **Feature — Bounded lambing and growth.** Allow recently petted, happy sheep to produce lambs only below an adult cap, then let lambs grow through time and attention.
-- [ ] **Feature — Adventures and postcards.** At or above the adult cap, let an adult depart from an island location such as a magic floating dock and later return with a persistent, reviewable postcard and one new accessory unlock.
+- [ ] **Feature — Adventures and postcards.** At or above the adult cap, let an adult depart from an island location such as a magic floating dock and later return with a persistent, reviewable postcard featuring a sheep selfie and one new accessory unlock.
 - [ ] **Feature — Wool economy.** Accumulate wool automatically, allow a small optional interaction bonus, and use wool for cosmetics or decorations without requiring repeated clicking.
 
 ### Flock progression decisions still needed

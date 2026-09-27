@@ -15,7 +15,7 @@ Deliver a small, calm **Feature** in which cuboid sheep wander, occasionally baa
 
 - A fixed authored flock of three simplified sheep in the companion scene.
 - Bounded wandering with idle pauses on the placeholder island's existing NavMesh.
-- Occasional characterful baas and a remembered sound-effects preference controlled by `S` while the player has focus.
+- Occasional characterful baas and a remembered sound-effects preference controlled by `S` while the player has focus, with a brief speaker icon below the island for on/off feedback.
 - A brief visual petting response when a sheep is clicked.
 - The original free-floating square feet, positioned and stepped for the companion movement.
 - Correct interaction with the desktop window's hide, restore, camera, and input behaviour.
@@ -33,6 +33,7 @@ Deliver a small, calm **Feature** in which cuboid sheep wander, occasionally baa
 - `NavMeshSurface` owns and registers its baked data. Companion activation must not register the same `NavMeshData` a second time.
 - Petting is visual feedback only and has no progression effect in this feature.
 - `S` controls sound effects; music will have a separate control and preference later.
+- Sound feedback remains a light 2D overlay and must be legible against light and dark desktop backgrounds.
 - Hiding the desktop companion must stop active baa playback and prevent another baa from starting while hidden.
 - Scene and prefab changes use Unity editor APIs so serialized references and metadata remain valid.
 
@@ -44,6 +45,7 @@ Deliver a small, calm **Feature** in which cuboid sheep wander, occasionally baa
 - [x] Add the click-to-pet turn, hop, and head-tilt response.
 - [x] Restore and tune the independent square feet so they plant beneath and ahead of the moving body.
 - [ ] Validate variable baa pitch, remembered sound preference after relaunch, and silence while hidden.
+- [ ] Confirm the brief speaker icon remains legible against light and dark desktop backgrounds.
 - [ ] Validate tray discoverability and restoration with the current sheep player.
 - [ ] Run the integrated sheep, audio, petting, camera, window-control, and transparency regression.
 
@@ -55,6 +57,7 @@ Deliver a small, calm **Feature** in which cuboid sheep wander, occasionally baa
 - [x] Clicking a sheep makes it face the camera and perform a brief petting response before resuming.
 - [x] The square feet rest near the body corners and plant ahead of motion rather than trailing.
 - [ ] Distinct baa pitch is audible, the sound preference survives relaunch, and silence while hidden is observed in a player.
+- [ ] The sound icon is readable against representative light and dark desktop backgrounds.
 - [ ] The tray icon is discoverable and restores the current sheep player.
 - [ ] The final player preserves sheep behaviour alongside click-through, pinning, movement, camera controls, hide/restore, and exit.
 

@@ -43,7 +43,7 @@ Git retains the superseded source documents. This mapping is explicit because th
 - A superseded-path scan found no links to the removed handoff, source reports, source plans, or unavailable preview image outside the one-time migration artifacts.
 - Every YAML `status` value was checked against `draft`, `active`, `awaiting-validation`, `completed`, and `superseded`.
 - `git diff --check` reported no whitespace errors throughout the migration.
-- The Desktop prototype roadmap state was compared with its canonical artifacts: the migration, companion scene, and desktop window/controls are completed; the initial flock remains unchecked and `awaiting-validation` while its audio, tray, and integrated player checks remain open.
+- The Desktop prototype roadmap state was compared with its canonical artifacts: the migration, companion scene, and desktop window/controls are completed; the initial flock remains unchecked and `awaiting-validation` while its audio, feedback-legibility, tray, and integrated player checks remain open.
 
 ## Remaining risks or follow-up
 

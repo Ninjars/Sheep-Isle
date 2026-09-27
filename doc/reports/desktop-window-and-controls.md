@@ -14,6 +14,7 @@ The Windows player runs as a borderless transparent desktop companion with click
 ## Delivered scope
 
 - `DesktopWindowController` creates a colour-key Windows window after requesting a 480 × 480 player resolution. Empty magenta pixels are transparent and click through to applications behind the island.
+- The companion camera clears to solid magenta, targets 30 FPS, and uses no MSAA so the tested colour-key and idle-performance baseline remains reproducible.
 - `P` toggles always-on-top, middle-button drag moves the desktop window, `H` hides it, and `Esc` exits. The tray menu provides Show/Hide and Exit, and re-registers its icon after Explorer restarts.
 - `DesktopOrbitCamera` uses a perspective camera with right-button orbit, a bounded vertical angle including the confirmed −10° low-view limit, and wheel dolly.
 - Window position, pin state, camera yaw, camera pitch, and camera distance persist between launches. An off-screen saved window position is clamped to a visible monitor work area.
@@ -25,6 +26,7 @@ The Windows player runs as a borderless transparent desktop companion with click
 - Unity's default D3D11 flip swap chain rendered the colour-key background as opaque. The player therefore uses the D3D11 BitBlt model.
 - Applying borderless styles before `Screen.SetResolution` completed allowed Unity to restore the frame. Waiting one frame before applying the native style reliably removed the title bar and border.
 - Window movement uses middle drag so right drag is reserved for camera orbit. The camera changed from the transferred scene's orthographic view to perspective so the wheel can move toward and away from the island.
+- Orbit input and smoothing drew on `Assets/Game/MouseOrbiterImproved.cs`, especially its distance-related input, without importing its broad mouse-capture behaviour.
 - Native window and tray behaviour stays behind `UNITY_STANDALONE_WIN && !UNITY_EDITOR`; the Unity editor retains a normal Game view.
 - The camera controller remains separate from the native window controller, and the tray helper remains focused rather than expanding one large platform script.
 - Keyboard shortcuts require player focus. This is current interaction behaviour, not a global shortcut contract.
@@ -56,5 +58,6 @@ The Windows player runs as a borderless transparent desktop companion with click
 - `Assets/DesktopCompanion/DesktopWindowController.cs`
 - `Assets/DesktopCompanion/DesktopOrbitCamera.cs`
 - `Assets/DesktopCompanion/Editor/DesktopCompanionBuild.cs`
+- `Assets/Game/MouseOrbiterImproved.cs`
 - [Unity `Screen.SetResolution`](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Screen.SetResolution.html)
 - [Microsoft `SetWindowPos`](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowpos)
