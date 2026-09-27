@@ -1,6 +1,13 @@
+---
+type: reference
+status: active
+milestone: replacement-island
+updated: 2026-09-27
+---
+
 # Navigation authoring for the replacement island
 
-Updated 27 September 2026. This is a design reference for [unit 3 of the project outline](project-outline.md), based on the Unity 6 project and AI Navigation 2.0.14 package. It does not prescribe final paths or biome shapes.
+This is current technical guidance for the Replacement island [milestone](../project-outline.md), based on the Unity 6 project and AI Navigation 2.0.14 package. It does not prescribe final paths or biome shapes.
 
 ## What the transferred island does now
 

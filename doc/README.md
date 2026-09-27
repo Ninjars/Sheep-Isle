@@ -45,8 +45,8 @@ Never mark a task, feature, unit, or milestone complete merely because implement
 - [Project outline](project-outline.md)
 - [Documentation formalisation design](plans/documentation-formalisation-design.md)
 - [Documentation formalisation plan](plans/documentation-formalisation.md)
-- [Desktop sheep plan](sheep-pass-plan.md)
-- [Navigation authoring reference](navigation-authoring.md)
+- [Initial flock plan](plans/initial-flock.md)
+- [Navigation authoring reference](reference/navigation-authoring.md)
 
 ### Existing historical records
 
