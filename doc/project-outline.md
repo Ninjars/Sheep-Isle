@@ -25,13 +25,13 @@ The window and camera controls are implemented. Keep the player comfortable to u
 
 ## 2. Bring back the sheep, simply
 
-Keep the old food and reproduction coupling out of the new scene. Petting in this pass is a visual response, without additional progression requirements. Preserve the original free-floating square feet and steer around the placeholder island's trees and rocks. A more expressive petting animation can follow in a later visual pass. See the [desktop sheep plan](sheep-pass-plan.md) for work slices and validation.
+Keep the old food and reproduction coupling out of the new scene. Petting in this pass is a visual response, without additional progression requirements. Preserve the original free-floating square feet. The replacement island needs an authored NavMesh that steers sheep around trees, rocks, and water. A more expressive petting animation can follow in a later visual pass. See the [desktop sheep plan](sheep-pass-plan.md) for work slices and validation.
 
-- [x] Migrate a simplified cuboid sheep prefab and a three-sheep flock into the companion scene, using the original free-floating square Foot prefab. The Unity 6 player builds and shows sheep; the final foot-motion check remains below.
+- [x] Migrate a simplified cuboid sheep prefab and a three-sheep flock into the companion scene, using the original free-floating square Foot prefab. The Unity 6 player builds and shows sheep; foot placement was confirmed below.
 - [x] Add bounded NavMesh wandering with idle pauses. The user observed sheep moving in the first player. Approximate runtime clearance was added, but the user confirmed sheep still cross large trees, rocks, and water on the placeholder island.
 - [x] Restore occasional baas and add a focused-window `S` sound-effects toggle with brief on/off feedback. The user confirmed playback and the toggle in the first player. Individual pitch variation, the saved setting, and silence while hidden are implemented in the newer build.
 - [x] Let a click pet a sheep: it turns toward the camera and performs a short hop and head tilt. The user confirmed this response is fine for the first pass; a richer animation remains later polish.
-- [ ] Check the revised feet in a player: they should settle beneath the body corners and plant ahead of the sheep's motion instead of trailing.
+- [x] Check the revised feet in a player: they settle beneath the body corners and plant ahead of the sheep's motion instead of trailing. The user confirmed the positioning on 27 September 2026.
 - [ ] Check variable baa pitch, sound preference after relaunch, and silence while the island is hidden.
 - [ ] Recheck sheep movement, audio, and petting alongside the desktop window controls in the final unit 2 player.
 
