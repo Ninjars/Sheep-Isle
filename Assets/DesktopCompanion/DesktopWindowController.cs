@@ -83,6 +83,7 @@ public sealed class DesktopWindowController : MonoBehaviour
         camera.backgroundColor = new Color32(255, 0, 255, 255);
 
 #if UNITY_STANDALONE_WIN && !UNITY_EDITOR
+        Application.runInBackground = true;
         Application.targetFrameRate = 30;
         QualitySettings.antiAliasing = 0;
         Screen.fullScreenMode = FullScreenMode.Windowed;
