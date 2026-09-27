@@ -16,6 +16,10 @@ Updated 27 September 2026. This expands [unit 1 of the project outline](project-
 3. **Tray hide and restore.** Add the tray icon and Show/Hide/Exit menu, with safe cleanup on exit. `H` hides; tray Show restores and activates the window. Validate hide, restore, pin state, exit, and restart without leaving a dead icon. Commit the slice.
 4. **Integrated regression.** Verify borderless transparency and empty-pixel click-through, framing across camera limits, middle drag, right orbit, wheel zoom, input focus, pinning, saved state, and a longer idle run. Fix any observed issues. Update the [outline](project-outline.md) and [desktop window pass](desktop-window-pass.md) with verified outcomes, then commit the final notes and fixes.
 
+## Progress
+
+- **Slice 1, 27 September:** the separate `DesktopOrbitCamera` changes the companion camera to perspective, orbits on right drag, and moves toward/away exponentially on wheel input. Window dragging now uses middle drag. The user checked all three controls in the Windows player and found the feel good; after clarification, the low-view pitch limit was lowered from 15 to 5 degrees, allowing a view closer to the horizon. The scene component was added through the Unity editor build tool, and an isolated Unity 6 player build succeeded. The source project build opened with the intended camera and remained borderless.
+
 ## Implementation boundaries
 
 - Keep window/tray behavior behind `UNITY_STANDALONE_WIN && !UNITY_EDITOR`; the editor retains a normal Game view. Use Windows APIs only for native window and tray functions.

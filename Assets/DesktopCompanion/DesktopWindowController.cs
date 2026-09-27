@@ -19,7 +19,7 @@ public sealed class DesktopWindowController : MonoBehaviour
     private const uint NoZOrder = 0x0004;
     private const uint NoActivate = 0x0010;
     private const uint FrameChanged = 0x0020;
-    private const int RightMouseButton = 0x02;
+    private const int MiddleMouseButton = 0x04;
 
     private static readonly IntPtr Topmost = new IntPtr(-1);
     private static readonly IntPtr Normal = new IntPtr(-2);
@@ -105,13 +105,13 @@ public sealed class DesktopWindowController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
             TogglePin();
 
-        if (Input.GetMouseButtonDown(1) &&
+        if (Input.GetMouseButtonDown(2) &&
             GetCursorPos(out dragCursorStart) &&
             GetWindowRect(window, out dragWindowStart))
             dragging = true;
 
         if (!dragging) return;
-        if ((GetAsyncKeyState(RightMouseButton) & 0x8000) == 0)
+        if ((GetAsyncKeyState(MiddleMouseButton) & 0x8000) == 0)
         {
             dragging = false;
             return;
@@ -141,8 +141,8 @@ public sealed class DesktopWindowController : MonoBehaviour
     private void UpdateTitle()
     {
         SetWindowText(window, pinned
-            ? "Sheep Isle (pinned) - P unpin, right-drag move, Esc exit"
-            : "Sheep Isle - P pin, right-drag move, Esc exit");
+            ? "Sheep Isle (pinned) - P unpin, middle-drag move, Esc exit"
+            : "Sheep Isle - P pin, middle-drag move, Esc exit");
     }
 #endif
 }

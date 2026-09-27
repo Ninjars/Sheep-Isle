@@ -28,6 +28,11 @@ public static class DesktopCompanionBuild
                 cameraObject.AddComponent<DesktopWindowController>();
                 EditorSceneManager.SaveScene(scene);
             }
+            if (cameraObject.GetComponent<DesktopOrbitCamera>() == null)
+            {
+                cameraObject.AddComponent<DesktopOrbitCamera>();
+                EditorSceneManager.SaveScene(scene);
+            }
         }
         finally
         {
