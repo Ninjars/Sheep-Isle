@@ -9,7 +9,7 @@ Sheep Isle is a calm floating island that lives on the desktop. Cuboid sheep wan
 - [x] Upgrade enough of the project to compile and build with Unity 6. See the [migration handoff](sheep-isle-handoff.md) and [scene pass](scene-pass.md).
 - [x] Create a separate desktop companion scene containing the transferred island geometry, camera, light, and navigation surface. Keep the original main scene intact. See the [scene pass](scene-pass.md).
 - [x] Prove a Windows transparent player with click-through empty pixels, pin toggle, window dragging, and exit control. The user confirmed click-through, pinning, dragging, and exit. See the [desktop window pass](desktop-window-pass.md).
-- [ ] Remove the visible title bar and border from the current player. The transparent click-through behavior must survive this change.
+- [x] Remove the visible title bar and border from the player while retaining transparent-pixel click-through. Verified in a Windows player on 27 September 2026; see the [desktop window pass](desktop-window-pass.md).
 
 ## 1. Finish the desktop window and camera
 
