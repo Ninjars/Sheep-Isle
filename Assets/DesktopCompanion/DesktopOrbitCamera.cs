@@ -3,6 +3,12 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public sealed class DesktopOrbitCamera : MonoBehaviour
 {
+#if UNITY_STANDALONE_WIN && !UNITY_EDITOR
+    private const string ViewSavedKey = "DesktopCompanion.CameraSaved.v1";
+    private const string YawKey = "DesktopCompanion.CameraYaw.v1";
+    private const string PitchKey = "DesktopCompanion.CameraPitch.v1";
+    private const string DistanceKey = "DesktopCompanion.CameraDistance.v1";
+#endif
     [SerializeField, Range(30f, 65f)] private float fieldOfView = 42f;
     [SerializeField] private float minimumPitch = -10f;
     [SerializeField] private float maximumPitch = 70f;
@@ -22,6 +28,8 @@ public sealed class DesktopOrbitCamera : MonoBehaviour
     private float targetDistance;
     private Vector3 lastMousePosition;
     private bool orbiting;
+    private bool viewDirty;
+    private float saveAt;
 
     public float Yaw => targetYaw;
     public float Pitch => targetPitch;
@@ -49,6 +57,15 @@ public sealed class DesktopOrbitCamera : MonoBehaviour
 
         camera.orthographic = false;
         camera.fieldOfView = fieldOfView;
+#if UNITY_STANDALONE_WIN && !UNITY_EDITOR
+        if (PlayerPrefs.GetInt(ViewSavedKey, 0) != 0)
+        {
+            RestoreView(PlayerPrefs.GetFloat(YawKey, yaw),
+                PlayerPrefs.GetFloat(PitchKey, pitch),
+                PlayerPrefs.GetFloat(DistanceKey, distance));
+            return;
+        }
+#endif
         ApplyView();
     }
 
@@ -73,19 +90,27 @@ public sealed class DesktopOrbitCamera : MonoBehaviour
                 targetYaw += delta.x * yawDegreesPerPixel * distanceScale;
                 targetPitch = Mathf.Clamp(targetPitch - delta.y * pitchDegreesPerPixel,
                     minimumPitch, maximumPitch);
+                if (delta.sqrMagnitude > 0f) MarkViewChanged();
             }
         }
 
         var wheel = Input.mouseScrollDelta.y;
         if (wheel != 0f)
+        {
             targetDistance = Mathf.Clamp(targetDistance * Mathf.Exp(-wheel * zoomPerWheelStep),
                 minimumDistance, maximumDistance);
+            MarkViewChanged();
+        }
 
         var blend = 1f - Mathf.Exp(-smoothing * Time.unscaledDeltaTime);
         yaw = Mathf.LerpAngle(yaw, targetYaw, blend);
         pitch = Mathf.Lerp(pitch, targetPitch, blend);
         distance = Mathf.Lerp(distance, targetDistance, blend);
         ApplyView();
+
+#if UNITY_STANDALONE_WIN && !UNITY_EDITOR
+        if (viewDirty && Time.unscaledTime >= saveAt) SaveView();
+#endif
     }
 
     private void OnApplicationFocus(bool focused)
@@ -100,6 +125,31 @@ public sealed class DesktopOrbitCamera : MonoBehaviour
         targetDistance = distance = Mathf.Clamp(savedDistance, minimumDistance, maximumDistance);
         ApplyView();
     }
+
+    private void MarkViewChanged()
+    {
+        viewDirty = true;
+        saveAt = Time.unscaledTime + 0.5f;
+    }
+
+    private void OnApplicationQuit()
+    {
+#if UNITY_STANDALONE_WIN && !UNITY_EDITOR
+        if (viewDirty) SaveView();
+#endif
+    }
+
+#if UNITY_STANDALONE_WIN && !UNITY_EDITOR
+    private void SaveView()
+    {
+        PlayerPrefs.SetFloat(YawKey, targetYaw);
+        PlayerPrefs.SetFloat(PitchKey, targetPitch);
+        PlayerPrefs.SetFloat(DistanceKey, targetDistance);
+        PlayerPrefs.SetInt(ViewSavedKey, 1);
+        PlayerPrefs.Save();
+        viewDirty = false;
+    }
+#endif
 
     private void ApplyView()
     {

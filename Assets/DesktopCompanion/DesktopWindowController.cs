@@ -20,6 +20,11 @@ public sealed class DesktopWindowController : MonoBehaviour
     private const uint NoActivate = 0x0010;
     private const uint FrameChanged = 0x0020;
     private const int MiddleMouseButton = 0x04;
+    private const uint NearestMonitor = 0x00000002;
+    private const string PositionSavedKey = "DesktopCompanion.WindowPositionSaved.v1";
+    private const string PositionXKey = "DesktopCompanion.WindowX.v1";
+    private const string PositionYKey = "DesktopCompanion.WindowY.v1";
+    private const string PinnedKey = "DesktopCompanion.Pinned.v1";
 
     private static readonly IntPtr Topmost = new IntPtr(-1);
     private static readonly IntPtr Normal = new IntPtr(-2);
@@ -38,6 +43,15 @@ public sealed class DesktopWindowController : MonoBehaviour
     [StructLayout(LayoutKind.Sequential)]
     private struct Rect { public int Left; public int Top; public int Right; public int Bottom; }
 
+    [StructLayout(LayoutKind.Sequential)]
+    private struct MonitorInfo
+    {
+        public int Size;
+        public Rect Monitor;
+        public Rect Work;
+        public uint Flags;
+    }
+
     [DllImport("user32.dll")] private static extern IntPtr GetActiveWindow();
     [DllImport("user32.dll", SetLastError = true)] private static extern int GetWindowLong(IntPtr hwnd, int index);
     [DllImport("user32.dll", SetLastError = true)] private static extern int SetWindowLong(IntPtr hwnd, int index, int value);
@@ -47,6 +61,8 @@ public sealed class DesktopWindowController : MonoBehaviour
     [DllImport("user32.dll")] private static extern short GetAsyncKeyState(int virtualKey);
     [DllImport("user32.dll")] private static extern bool GetCursorPos(out Point point);
     [DllImport("user32.dll")] private static extern bool GetWindowRect(IntPtr hwnd, out Rect rect);
+    [DllImport("user32.dll")] private static extern IntPtr MonitorFromRect(ref Rect rect, uint flags);
+    [DllImport("user32.dll", CharSet = CharSet.Auto)] private static extern bool GetMonitorInfo(IntPtr monitor, ref MonitorInfo info);
 #else
     private struct Point { public int X; public int Y; }
     private struct Rect { public int Left; public int Top; public int Right; public int Bottom; }
@@ -87,6 +103,7 @@ public sealed class DesktopWindowController : MonoBehaviour
             GetWindowLong(window, ExtendedWindowStyle) | Layered);
         if (!SetLayeredWindowAttributes(window, Magenta, 255, ColorKey))
             Debug.LogError("Could not enable desktop window transparency: " + Marshal.GetLastWin32Error());
+        RestoreWindowState();
         UpdateTitle();
 #endif
         yield break;
@@ -114,6 +131,7 @@ public sealed class DesktopWindowController : MonoBehaviour
         if ((GetAsyncKeyState(MiddleMouseButton) & 0x8000) == 0)
         {
             dragging = false;
+            SaveWindowPosition();
             return;
         }
 
@@ -126,15 +144,67 @@ public sealed class DesktopWindowController : MonoBehaviour
     }
 
 #if UNITY_STANDALONE_WIN && !UNITY_EDITOR
+    private void RestoreWindowState()
+    {
+        if (PlayerPrefs.GetInt(PositionSavedKey, 0) != 0 &&
+            GetWindowRect(window, out var current))
+        {
+            var x = PlayerPrefs.GetInt(PositionXKey, current.Left);
+            var y = PlayerPrefs.GetInt(PositionYKey, current.Top);
+            var width = current.Right - current.Left;
+            var height = current.Bottom - current.Top;
+            var saved = new Rect
+            {
+                Left = x, Top = y, Right = x + width, Bottom = y + height
+            };
+            var monitor = MonitorFromRect(ref saved, NearestMonitor);
+            var info = new MonitorInfo { Size = Marshal.SizeOf(typeof(MonitorInfo)) };
+            if (monitor != IntPtr.Zero && GetMonitorInfo(monitor, ref info))
+            {
+                x = Math.Max(info.Work.Left, Math.Min(x, info.Work.Right - width));
+                y = Math.Max(info.Work.Top, Math.Min(y, info.Work.Bottom - height));
+            }
+
+            SetWindowPos(window, IntPtr.Zero, x, y, 0, 0,
+                NoSize | NoZOrder | NoActivate);
+            SaveWindowPosition();
+        }
+
+        ApplyPin(PlayerPrefs.GetInt(PinnedKey, 0) != 0, false);
+    }
+
+    private void SaveWindowPosition()
+    {
+        if (window == IntPtr.Zero || !GetWindowRect(window, out var rect)) return;
+        PlayerPrefs.SetInt(PositionXKey, rect.Left);
+        PlayerPrefs.SetInt(PositionYKey, rect.Top);
+        PlayerPrefs.SetInt(PositionSavedKey, 1);
+        PlayerPrefs.Save();
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveWindowPosition();
+    }
+
     private void TogglePin()
     {
-        var requested = !pinned;
+        ApplyPin(!pinned, true);
+    }
+
+    private void ApplyPin(bool requested, bool persist)
+    {
         var applied = SetWindowPos(window, requested ? Topmost : Normal, 0, 0, 0, 0,
             NoMove | NoSize | NoActivate);
         pinned = (GetWindowLong(window, ExtendedWindowStyle) & TopmostStyle) != 0;
         if (!applied || pinned != requested)
             Debug.LogWarning("Could not change pin state: " + Marshal.GetLastWin32Error());
 
+        if (persist)
+        {
+            PlayerPrefs.SetInt(PinnedKey, pinned ? 1 : 0);
+            PlayerPrefs.Save();
+        }
         UpdateTitle();
     }
 

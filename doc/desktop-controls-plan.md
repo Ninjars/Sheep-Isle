@@ -19,6 +19,7 @@ Updated 27 September 2026. This expands [unit 1 of the project outline](project-
 ## Progress
 
 - **Slice 1, 27 September:** the separate `DesktopOrbitCamera` changes the companion camera to perspective, orbits on right drag, and moves toward/away exponentially on wheel input. Window dragging now uses middle drag. The user checked all three controls in the Windows player and found the feel good; after a further test, they requested a low-view pitch limit of −10 degrees. The scene component was added through the Unity editor build tool, and an isolated Unity 6 player build succeeded. The source project build opened with the intended camera and remained borderless.
+- **Slice 2, 27 September:** the window saves its position after dragging and at exit, and saves pin changes immediately. The camera saves yaw, pitch, and distance after interaction. A saved window position is clamped to the nearest monitor work area on launch. An isolated Unity 6 build succeeded, and a player restart restored the changed zoom and pin state. Window position and off-screen recovery still need an interactive check.
 
 ## Implementation boundaries
 
