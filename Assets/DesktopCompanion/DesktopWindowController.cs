@@ -20,6 +20,8 @@ public sealed class DesktopWindowController : MonoBehaviour
     private const uint NoActivate = 0x0010;
     private const uint FrameChanged = 0x0020;
     private const int MiddleMouseButton = 0x04;
+    private const int HideWindowCommand = 0;
+    private const int ShowWindowCommand = 5;
     private const uint NearestMonitor = 0x00000002;
     private const string PositionSavedKey = "DesktopCompanion.WindowPositionSaved.v1";
     private const string PositionXKey = "DesktopCompanion.WindowX.v1";
@@ -35,6 +37,9 @@ public sealed class DesktopWindowController : MonoBehaviour
     private bool dragging;
     private Point dragCursorStart;
     private Rect dragWindowStart;
+#if UNITY_STANDALONE_WIN && !UNITY_EDITOR
+    private DesktopTrayIcon tray;
+#endif
 
 #if UNITY_STANDALONE_WIN && !UNITY_EDITOR
     [StructLayout(LayoutKind.Sequential)]
@@ -63,6 +68,9 @@ public sealed class DesktopWindowController : MonoBehaviour
     [DllImport("user32.dll")] private static extern bool GetWindowRect(IntPtr hwnd, out Rect rect);
     [DllImport("user32.dll")] private static extern IntPtr MonitorFromRect(ref Rect rect, uint flags);
     [DllImport("user32.dll", CharSet = CharSet.Auto)] private static extern bool GetMonitorInfo(IntPtr monitor, ref MonitorInfo info);
+    [DllImport("user32.dll")] private static extern bool ShowWindow(IntPtr hwnd, int command);
+    [DllImport("user32.dll")] private static extern bool IsWindowVisible(IntPtr hwnd);
+    [DllImport("user32.dll")] private static extern bool SetForegroundWindow(IntPtr hwnd);
 #else
     private struct Point { public int X; public int Y; }
     private struct Rect { public int Left; public int Top; public int Right; public int Bottom; }
@@ -105,6 +113,7 @@ public sealed class DesktopWindowController : MonoBehaviour
             Debug.LogError("Could not enable desktop window transparency: " + Marshal.GetLastWin32Error());
         RestoreWindowState();
         UpdateTitle();
+        tray = new DesktopTrayIcon(window);
 #endif
         yield break;
     }
@@ -113,6 +122,16 @@ public sealed class DesktopWindowController : MonoBehaviour
     {
 #if UNITY_STANDALONE_WIN && !UNITY_EDITOR
         if (window == IntPtr.Zero) return;
+        if (tray != null)
+        {
+            if (tray.ExitRequested)
+            {
+                Application.Quit();
+                return;
+            }
+            if (tray.ShowRequested) ShowIsland();
+            if (tray.HideRequested) HideIsland();
+        }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
@@ -121,6 +140,12 @@ public sealed class DesktopWindowController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.P))
             TogglePin();
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            HideIsland();
+            return;
+        }
 
         if (Input.GetMouseButtonDown(2) &&
             GetCursorPos(out dragCursorStart) &&
@@ -185,6 +210,30 @@ public sealed class DesktopWindowController : MonoBehaviour
     private void OnApplicationQuit()
     {
         SaveWindowPosition();
+        tray?.Dispose();
+        tray = null;
+    }
+
+    private void OnDestroy()
+    {
+        tray?.Dispose();
+        tray = null;
+    }
+
+    private void HideIsland()
+    {
+        if (tray == null || !tray.IsReady) return;
+        SaveWindowPosition();
+        dragging = false;
+        ShowWindow(window, HideWindowCommand);
+        tray.SetVisible(IsWindowVisible(window));
+    }
+
+    private void ShowIsland()
+    {
+        ShowWindow(window, ShowWindowCommand);
+        SetForegroundWindow(window);
+        tray?.SetVisible(IsWindowVisible(window));
     }
 
     private void TogglePin()
@@ -211,8 +260,8 @@ public sealed class DesktopWindowController : MonoBehaviour
     private void UpdateTitle()
     {
         SetWindowText(window, pinned
-            ? "Sheep Isle (pinned) - P unpin, middle-drag move, Esc exit"
-            : "Sheep Isle - P pin, middle-drag move, Esc exit");
+            ? "Sheep Isle (pinned) - P unpin, H hide, middle-drag move, Esc exit"
+            : "Sheep Isle - P pin, H hide, middle-drag move, Esc exit");
     }
 #endif
 }

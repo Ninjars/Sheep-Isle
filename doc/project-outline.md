@@ -15,7 +15,7 @@ Sheep Isle is a calm floating island that lives on the desktop. Cuboid sheep wan
 
 This is the next implementation pass. Keep the player comfortable to use alongside other Windows applications. See the [desktop controls plan](desktop-controls-plan.md) for decisions, work slices, and validation.
 
-- [ ] Provide a tray icon with Show/Hide and Exit, plus a focused-window `H` shortcut to hide the island.
+- [ ] Provide a tray icon with Show/Hide and Exit, plus a focused-window `H` shortcut to hide the island. The Unity build and `H` hide behavior passed; tray restore and menu exit need a player check.
 - [ ] Remember window position, pin state, camera angle, and zoom across launches, with sensible recovery if a saved position is off screen. Zoom and pin restart behavior verified; window position and off-screen recovery still need a player check.
 - [x] Move the window with a **middle-button drag** instead of right-button drag. User checked the new control in a Windows player.
 - [x] Rotate the camera around the island with a **right-button drag**, with a limited vertical angle. User checked the feel and requested a low-angle limit of −10 degrees.
