@@ -6,6 +6,9 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public sealed class DesktopWindowController : MonoBehaviour
 {
+    public static event Action<bool> VisibilityChanged;
+    public static bool IsIslandVisible { get; private set; } = true;
+
     private const int WindowStyle = -16;
     private const int ExtendedWindowStyle = -20;
     private const int Popup = unchecked((int)0x80000000);
@@ -78,6 +81,7 @@ public sealed class DesktopWindowController : MonoBehaviour
 
     private IEnumerator Start()
     {
+        IsIslandVisible = true;
         var camera = GetComponent<Camera>();
         camera.clearFlags = CameraClearFlags.SolidColor;
         camera.backgroundColor = new Color32(255, 0, 255, 255);
@@ -227,14 +231,18 @@ public sealed class DesktopWindowController : MonoBehaviour
         SaveWindowPosition();
         dragging = false;
         ShowWindow(window, HideWindowCommand);
-        tray.SetVisible(IsWindowVisible(window));
+        IsIslandVisible = IsWindowVisible(window);
+        VisibilityChanged?.Invoke(IsIslandVisible);
+        tray.SetVisible(IsIslandVisible);
     }
 
     private void ShowIsland()
     {
         ShowWindow(window, ShowWindowCommand);
+        IsIslandVisible = IsWindowVisible(window);
+        VisibilityChanged?.Invoke(IsIslandVisible);
         SetForegroundWindow(window);
-        tray?.SetVisible(IsWindowVisible(window));
+        tray?.SetVisible(IsIslandVisible);
     }
 
     private void TogglePin()

@@ -51,11 +51,13 @@ public sealed class CompanionSheep : MonoBehaviour
     private void OnEnable()
     {
         CompanionSoundSettings.Changed += OnSoundChanged;
+        DesktopWindowController.VisibilityChanged += OnIslandVisibilityChanged;
     }
 
     private void OnDisable()
     {
         CompanionSoundSettings.Changed -= OnSoundChanged;
+        DesktopWindowController.VisibilityChanged -= OnIslandVisibilityChanged;
     }
 
     private void Start()
@@ -160,7 +162,8 @@ public sealed class CompanionSheep : MonoBehaviour
 
     private void Baa()
     {
-        if (!CompanionSoundSettings.Enabled || voice == null || audioSource.isPlaying) return;
+        if (!CompanionSoundSettings.Enabled || !DesktopWindowController.IsIslandVisible ||
+            voice == null || audioSource.isPlaying) return;
         audioSource.pitch = voicePitch * Random.Range(0.96f, 1.04f);
         audioSource.PlayOneShot(voice);
     }
@@ -168,5 +171,10 @@ public sealed class CompanionSheep : MonoBehaviour
     private void OnSoundChanged(bool enabled)
     {
         if (!enabled) audioSource.Stop();
+    }
+
+    private void OnIslandVisibilityChanged(bool visible)
+    {
+        if (!visible) audioSource.Stop();
     }
 }
