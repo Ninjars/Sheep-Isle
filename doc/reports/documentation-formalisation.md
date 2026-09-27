@@ -61,4 +61,4 @@ Git retains the superseded source documents. This mapping is explicit because th
 - `28686df` — preserve focused Unity 6 migration evidence.
 - `408627a` — organize the roadmap by product milestones.
 - `39d6070` — point new sessions at canonical guidance.
-- The commit containing this report retires the one-time documentation design and migration plan.
+- The final documentation migration commit retires the one-time documentation design and migration plan.
