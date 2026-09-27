@@ -40,11 +40,9 @@ Never mark a task, feature, unit, or milestone complete merely because implement
 
 ## Current documents
 
-### Current direction and planning
+### Current direction, planning, and reference
 
 - [Project outline](project-outline.md)
-- [Documentation formalisation design](plans/documentation-formalisation-design.md)
-- [Documentation formalisation plan](plans/documentation-formalisation.md)
 - [Initial flock plan](plans/initial-flock.md)
 - [Navigation authoring reference](reference/navigation-authoring.md)
 
@@ -53,6 +51,7 @@ Never mark a task, feature, unit, or milestone complete merely because implement
 - [Unity 6 migration](reports/unity-6-migration.md)
 - [Desktop companion scene](reports/companion-scene.md)
 - [Desktop window and controls](reports/desktop-window-and-controls.md)
+- [Documentation formalisation](reports/documentation-formalisation.md)
 
 ## Plan template
 
