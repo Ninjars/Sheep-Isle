@@ -24,7 +24,7 @@ This is the next implementation pass. Keep the player comfortable to use alongsi
 
 ## 2. Bring back the sheep, simply
 
-Keep the old food and reproduction coupling out of the new scene. Petting in this pass is a visual response, without additional progression requirements. See the [desktop sheep plan](sheep-pass-plan.md) for work slices and validation.
+Keep the old food and reproduction coupling out of the new scene. Petting in this pass is a visual response, without additional progression requirements. Preserve the original free-floating square feet and steer around the placeholder island's trees and rocks. A more expressive petting animation can follow in a later visual pass. See the [desktop sheep plan](sheep-pass-plan.md) for work slices and validation.
 
 - [ ] Migrate a simplified cuboid sheep prefab into the companion scene.
 - [ ] Migrate wandering behavior suitable for the island navigation surface.
