@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2015 - 2019 Doozy Entertainment. All Rights Reserved.
+﻿// Copyright (c) 2015 - 2020 Doozy Entertainment. All Rights Reserved.
 // This code can only be used under the standard Unity Asset Store End User License Agreement
 // A Copy of the EULA APPENDIX 1 is available at http://unity3d.com/company/legal/as_terms
 
@@ -67,7 +67,7 @@ namespace Doozy.Engine.Orientation
 
         #endregion
 
-        #region Properties        
+        #region Properties
 
         /// <summary> Reference to the RectTransform component </summary>
         public RectTransform RectTransform
@@ -96,7 +96,7 @@ namespace Doozy.Engine.Orientation
 
         #endregion
 
-        #region Private Variables        
+        #region Private Variables
 
         /// <summary> Internal variable that keeps track of the current device orientation </summary>
         private DetectedOrientation m_currentOrientation = DetectedOrientation.Unknown;
@@ -113,6 +113,14 @@ namespace Doozy.Engine.Orientation
         #endregion
 
         #region Unity Methods
+
+#if UNITY_2019_3_OR_NEWER
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void RunOnStart()
+        {
+            ApplicationIsQuitting = false;
+        }
+#endif
 
         private void Reset() { Canvas.renderMode = RenderMode.ScreenSpaceOverlay; }
 
@@ -140,7 +148,7 @@ namespace Doozy.Engine.Orientation
         private void OnEnable()
         {
             CheckDeviceOrientation();
-            
+
         }
 
         private void Update()

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2015 - 2019 Doozy Entertainment. All Rights Reserved.
+﻿// Copyright (c) 2015 - 2020 Doozy Entertainment. All Rights Reserved.
 // This code can only be used under the standard Unity Asset Store End User License Agreement
 // A Copy of the EULA APPENDIX 1 is available at http://unity3d.com/company/legal/as_terms
 
@@ -20,7 +20,7 @@ namespace Doozy.Engine.Soundy
     /// <inheritdoc />
     /// <summary>
     /// Central component of the Soundy system that binds all the sound sub-systems together.
-    /// It gets the SoundGroupData references from the SoundyDatabase and passes them to the SoundyPooler, that in turn manages and uses SoundyControllers to play the sounds. 
+    /// It gets the SoundGroupData references from the SoundyDatabase and passes them to the SoundyPooler, that in turn manages and uses SoundyControllers to play the sounds.
     /// </summary>
     [AddComponentMenu(MenuUtils.SoundyManager_AddComponentMenu_MenuName, MenuUtils.SoundyManager_AddComponentMenu_Order)]
     [DisallowMultipleComponent]
@@ -69,7 +69,7 @@ namespace Doozy.Engine.Soundy
 
         #endregion
 
-        #region Static Properties        
+        #region Static Properties
 
         /// <summary> Internal variable used as a flag when the application is quitting </summary>
         private static bool ApplicationIsQuitting = false;
@@ -105,6 +105,16 @@ namespace Doozy.Engine.Soundy
         #endregion
 
         #region Unity Methods
+
+#if UNITY_2019_3_OR_NEWER
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void RunOnStart()
+        {
+            ApplicationIsQuitting = false;
+            s_initialized = false;
+            s_pooler = null;
+        }
+#endif
 
         private void Awake() { s_initialized = true; }
 

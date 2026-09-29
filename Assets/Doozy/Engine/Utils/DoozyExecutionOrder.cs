@@ -1,4 +1,4 @@
-// Copyright (c) 2015 - 2019 Doozy Entertainment. All Rights Reserved.
+// Copyright (c) 2015 - 2020 Doozy Entertainment. All Rights Reserved.
 // This code can only be used under the standard Unity Asset Store End User License Agreement
 // A Copy of the EULA APPENDIX 1 is available at http://unity3d.com/company/legal/as_terms
 
@@ -18,6 +18,8 @@ namespace Doozy.Engine.Utils
         public const int COLOR_TARGET_SPRITE_RENDERER = COMPONENT;
         public const int COLOR_TARGET_TEXT = COMPONENT;
         public const int COLOR_TARGET_TEXTMESHPRO = COMPONENT;
+        public const int COLOR_TARGET_SELECTABLE = COMPONENT;
+        public const int COLOR_TARGET_UNITY_EVENT = COMPONENT;
         public const int FONT_TARGET_TEXT = COMPONENT;
         public const int FONT_TARGET_TEXTMESHPRO = COMPONENT;
         public const int GAME_EVENT_LISTENER = COMPONENT;
@@ -42,8 +44,11 @@ namespace Doozy.Engine.Utils
         public const int SOUNDY_MANAGER = MANAGER;
         public const int SOUNDY_POOLER = COMPONENT;
         public const int SPRITE_TARGET_IMAGE = COMPONENT;
+        public const int SPRITE_TARGET_SELECTABLE = COMPONENT;
         public const int SPRITE_TARGET_SPRITE_RENDERER = COMPONENT;
+        public const int SPRITE_TARGET_UNITY_EVENT = COMPONENT;
         public const int TEXTURE_TARGET_RAW_IMAGE = COMPONENT;
+        public const int TEXTURE_TARGET_UNITY_EVENT = COMPONENT;
         public const int THEME_MANAGER = MANAGER;
         public const int TOUCH_DETECTOR = MANAGER;
         public const int UIBUTTON = COMPONENT;

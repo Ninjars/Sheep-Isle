@@ -1,14 +1,14 @@
-﻿// Copyright (c) 2015 - 2019 Doozy Entertainment. All Rights Reserved.
+﻿// Copyright (c) 2015 - 2020 Doozy Entertainment. All Rights Reserved.
 // This code can only be used under the standard Unity Asset Store End User License Agreement
 // A Copy of the EULA APPENDIX 1 is available at http://unity3d.com/company/legal/as_terms
 
 using System;
 using System.IO;
-using Doozy.Engine.Settings;
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
 
+#if UNITY_EDITOR
+using System.Collections.Generic;
+using UnityEditor;
 #endif
 
 namespace Doozy.Engine.Utils
@@ -17,7 +17,7 @@ namespace Doozy.Engine.Utils
     {
         /// <summary>
         /// Returns a reference to a scriptable object of type T with the given fileName at the relative resourcesPath.
-        /// <para/> If the asset is not found, one will get created automatically (in the Editor only) 
+        /// <para/> If the asset is not found, one will get created automatically (in the Editor only)
         /// </summary>
         /// <param name="fileName"></param>
         /// <param name="resourcesPath"></param>
@@ -95,6 +95,20 @@ namespace Doozy.Engine.Utils
             if (saveAssetDatabase) AssetDatabase.SaveAssets();
             if (refreshAssetDatabase) AssetDatabase.Refresh();
             return asset;
+        }
+
+        public static List<T> GetAssets<T>() where T : ScriptableObject
+        {
+            var list = new List<T>();
+            string[] guids = AssetDatabase.FindAssets("t:" + typeof(T).Name);
+            foreach (string guid in guids)
+            {
+                var asset = AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(guid));
+                if (asset == null) continue;
+                list.Add(asset);
+            }
+
+            return list;
         }
 
         public static void MoveAssetToTrash(string relativePath, string fileName, bool saveAssetDatabase = true,

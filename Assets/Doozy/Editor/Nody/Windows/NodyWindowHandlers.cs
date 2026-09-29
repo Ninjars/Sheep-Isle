@@ -1,4 +1,4 @@
-// Copyright (c) 2015 - 2019 Doozy Entertainment. All Rights Reserved.
+// Copyright (c) 2015 - 2020 Doozy Entertainment. All Rights Reserved.
 // This code can only be used under the standard Unity Asset Store End User License Agreement
 // A Copy of the EULA APPENDIX 1 is available at http://unity3d.com/company/legal/as_terms
 
@@ -105,6 +105,19 @@ namespace Doozy.Editor.Nody.Windows
                 default: throw new ArgumentOutOfRangeException();
             }
 
+            switch (graphEvent.commandType)
+            {
+                case GraphEvent.CommandType.NONE: break;
+                case GraphEvent.CommandType.CONSTRUCT_GRAPH:
+                    ConstructGraphGUI();
+                    break;
+                case GraphEvent.CommandType.RECALCULATE_ALL_POINTS:
+                    RecalculateAllPointRects();
+                    break;
+                case GraphEvent.CommandType.DISCONNECT_SOCKET:
+                    DisconnectSocket(graphEvent.sourceSocket, true);
+                    break;
+            }
 
             Repaint();
         }

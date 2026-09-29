@@ -1,4 +1,4 @@
-// Copyright (c) 2015 - 2019 Doozy Entertainment. All Rights Reserved.
+// Copyright (c) 2015 - 2020 Doozy Entertainment. All Rights Reserved.
 // This code can only be used under the standard Unity Asset Store End User License Agreement
 // A Copy of the EULA APPENDIX 1 is available at http://unity3d.com/company/legal/as_terms
 
@@ -88,6 +88,16 @@ namespace Doozy.Engine.UI
         #endregion
 
         #region Unity Methods
+
+#if UNITY_2019_3_OR_NEWER
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void RunOnStart()
+        {
+            ApplicationIsQuitting = false;
+            CurrentVisibleQueuePopup = null;
+            PopupQueue.Clear();
+        }
+#endif
 
         private void Awake()
         {
@@ -193,6 +203,22 @@ namespace Doozy.Engine.UI
                     return link;
 
             return null;
+        }
+
+        /// <summary>
+        ///     Hides the currently visible UIPopup (that is also in the PopupQueue).
+        ///     <para />
+        ///     Note that there can also be other visible UIPopups that were not added to the PopupQueue.
+        ///     <para />
+        ///     If no popup from the PopupQueue is visible, it returns false
+        /// </summary>
+        /// <param name="instantAction"> Should the animation happen instantly? (zero seconds) </param>
+        public static bool HideCurrentVisiblePopup(bool instantAction = false)
+        {
+            if (CurrentVisibleQueuePopup == null) return false;
+            CurrentVisibleQueuePopup.Hide(instantAction);
+            ShowNextInQueue();
+            return true;
         }
 
         /// <summary> Returns TRUE if at least one UIPopup with the given popup name is found in the PopupQueue </summary>

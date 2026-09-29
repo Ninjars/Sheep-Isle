@@ -24,12 +24,22 @@ namespace Aura2API
     {
         static HierarchyToggle()
         {
+#if UNITY_6000_4_OR_NEWER
+            EditorApplication.hierarchyWindowItemByEntityIdOnGUI += HierarchyWindowItemOnGUI;
+#else
             EditorApplication.hierarchyWindowItemOnGUI += HierarchyWindowItemOnGUI;
+#endif
         }
 
+#if UNITY_6000_4_OR_NEWER
+        static void HierarchyWindowItemOnGUI(EntityId entityId, Rect selectionRect)
+        {
+            GameObject gameObject = (GameObject)EditorUtility.EntityIdToObject(entityId);
+#else
         static void HierarchyWindowItemOnGUI(int instanceID, Rect selectionRect)
         {
             GameObject gameObject = (GameObject)EditorUtility.InstanceIDToObject(instanceID);
+#endif
 
             if (gameObject != null)
             {
@@ -81,7 +91,7 @@ namespace Aura2API
                     }
                 }
 
-                if (auraLight != null && auraLight.Type != LightType.Area)
+                if (auraLight != null && auraLight.Type != LightType.Rectangle)
                 {
                     state = auraLight.enabled;
                     tooltip = (state ? "Disable" : "Enable") + " Aura Light";

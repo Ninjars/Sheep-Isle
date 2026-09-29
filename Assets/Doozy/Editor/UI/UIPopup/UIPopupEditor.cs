@@ -1,4 +1,4 @@
-// Copyright (c) 2015 - 2019 Doozy Entertainment. All Rights Reserved.
+// Copyright (c) 2015 - 2020 Doozy Entertainment. All Rights Reserved.
 // This code can only be used under the standard Unity Asset Store End User License Agreement
 // A Copy of the EULA APPENDIX 1 is available at http://unity3d.com/company/legal/as_terms
 
@@ -58,6 +58,7 @@ namespace Doozy.Editor.UI
             m_autoHideAfterShow,
             m_autoHideAfterShowDelay,
             m_autoSelectButtonAfterShow,
+            m_autoSelectPreviouslySelectedButtonAfterHide,
             m_blockBackButton,
             m_buttons,
             m_canvasName,
@@ -129,6 +130,7 @@ namespace Doozy.Editor.UI
             m_autoHideAfterShow = GetProperty(PropertyName.AutoHideAfterShow);
             m_autoHideAfterShowDelay = GetProperty(PropertyName.AutoHideAfterShowDelay);
             m_autoSelectButtonAfterShow = GetProperty(PropertyName.AutoSelectButtonAfterShow);
+            m_autoSelectPreviouslySelectedButtonAfterHide = GetProperty(PropertyName.AutoSelectPreviouslySelectedButtonAfterHide);
             m_blockBackButton = GetProperty(PropertyName.BlockBackButton);
             m_canvasName = GetProperty(PropertyName.CanvasName);
             m_container = GetProperty(PropertyName.Container);
@@ -224,6 +226,8 @@ namespace Doozy.Editor.UI
             DrawDestroyAfterHide();
             GUILayout.Space(DGUI.Properties.Space(4));
             DrawAutoSelectButton();
+            GUILayout.Space(DGUI.Properties.Space(4));
+            DrawAutoSelectPreviouslySelectedButtonAfterHide();
             GUILayout.Space(DGUI.Properties.Space(4));
             DrawOverlay();
             GUILayout.Space(DGUI.Properties.Space());
@@ -1029,6 +1033,11 @@ namespace Doozy.Editor.UI
                                DGUI.Property.DrawWithFade(m_selectedButton, m_autoSelectButtonExpanded, DGUI.Properties.SingleLineHeight, ComponentColorName);
                                GUILayout.FlexibleSpace();
                            });
+        }
+
+        private void DrawAutoSelectPreviouslySelectedButtonAfterHide()
+        {
+            DGUI.Toggle.Switch.Draw(m_autoSelectPreviouslySelectedButtonAfterHide, UILabels.AutoSelectPreviouslySelectedButtonAfterHide, ComponentColorName, true, true);
         }
 
         private void DrawWhenHidden()

@@ -1,4 +1,4 @@
-// Copyright (c) 2015 - 2019 Doozy Entertainment. All Rights Reserved.
+// Copyright (c) 2015 - 2020 Doozy Entertainment. All Rights Reserved.
 // This code can only be used under the standard Unity Asset Store End User License Agreement
 // A Copy of the EULA APPENDIX 1 is available at http://unity3d.com/company/legal/as_terms
 
@@ -32,6 +32,7 @@ namespace Doozy.Editor
         AutoHideAfterShow,
         AutoHideAfterShowDelay,
         AutoSelectButtonAfterShow,
+        AutoSelectPreviouslySelectedButtonAfterHide,
         AutoSort,
         AutoStartLoopAnimation,
         BackButton,
@@ -308,6 +309,7 @@ namespace Doozy.Editor
         SceneActivationDelay,
         SceneBuildIndex,
         SceneName,
+        Selectable,
         SelectButton,
         SelectedButton,
         SelectedLoopAnimation,
@@ -328,6 +330,7 @@ namespace Doozy.Editor
         StopBehavior,
         Suffix,
         SwipeDirection,
+        SwitchBackMode,
         TargetFsm,
         TargetGameObject,
         TargetLabel,

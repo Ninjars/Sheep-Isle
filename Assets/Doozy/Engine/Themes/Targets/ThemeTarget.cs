@@ -1,4 +1,4 @@
-// Copyright (c) 2015 - 2019 Doozy Entertainment. All Rights Reserved.
+// Copyright (c) 2015 - 2020 Doozy Entertainment. All Rights Reserved.
 // This code can only be used under the standard Unity Asset Store End User License Agreement
 // A Copy of the EULA APPENDIX 1 is available at http://unity3d.com/company/legal/as_terms
 
@@ -43,7 +43,7 @@ namespace Doozy.Engine.Themes
 
         #region Unity Methods
 
-        private void OnValidate()
+        protected virtual void OnValidate()
         {
             if (ThemeId == Guid.Empty) return;
             if (PropertyId == Guid.Empty) return;

@@ -1,4 +1,4 @@
-// Copyright (c) 2015 - 2019 Doozy Entertainment. All Rights Reserved.
+// Copyright (c) 2015 - 2020 Doozy Entertainment. All Rights Reserved.
 // This code can only be used under the standard Unity Asset Store End User License Agreement
 // A Copy of the EULA APPENDIX 1 is available at http://unity3d.com/company/legal/as_terms
 
@@ -59,7 +59,7 @@ namespace Doozy.Engine.Themes
 
         /// <summary> Returns TRUE if the system should automatically save and load, at runtime, the last selected active theme variants </summary>
         public static bool AutoSave { get { return ThemesSettings.Instance.AutoSave; } }
-        
+
         /// <summary> Reference to the global themes database </summary>
         public static ThemesDatabase Database { get { return ThemesSettings.Database; } }
 
@@ -69,6 +69,16 @@ namespace Doozy.Engine.Themes
         #endregion
 
         #region Unity Methods
+
+#if UNITY_2019_3_OR_NEWER
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void RunOnStart()
+        {
+            ApplicationIsQuitting = false;
+            s_initialized = false;
+            ThemeTargets.Clear();
+        }
+#endif
 
         private void Awake()
         {
@@ -93,7 +103,7 @@ namespace Doozy.Engine.Themes
         /// <summary> Get the theme with the given theme id. If a theme with the given id is not found in the database, it will return null </summary>
         /// <param name="themeId"> Theme Guid to search for </param>
         public ThemeData GetTheme(Guid themeId) { return themeId == Guid.Empty ? null : Database.GetThemeData(themeId); }
-        
+
         /// <summary> Get the first theme with the given name. If a theme with the given name is not found in the database, it will return null </summary>
         /// <param name="themeName"> Theme name to search for </param>
         public ThemeData GetTheme(string themeName) { return string.IsNullOrEmpty(themeName) ? null : Database.GetThemeData(themeName); }
@@ -243,7 +253,7 @@ namespace Doozy.Engine.Themes
 
             s_initialized = true;
         }
-        
+
         /// <summary> Loads the active variant of the given theme from the PlayerPrefs </summary>
         /// <param name="theme"> Target theme </param>
         public static void LoadActiveVariant(ThemeData theme)
@@ -277,7 +287,7 @@ namespace Doozy.Engine.Themes
             if (theme.ActiveVariant == null) return;
             DataUtils.PlayerPrefsSetString(theme.Id.ToString(), theme.ActiveVariant.Id.ToString());
         }
-        
+
         /// <summary> Unregister a theme target from the ThemeManager </summary>
         /// <param name="target"> Theme target </param>
         public static void UnregisterTarget(ThemeTarget target)
@@ -338,7 +348,7 @@ namespace Doozy.Engine.Themes
 
         /// <summary> Add ThemeManager to scene and get a reference to it </summary>
         private static ThemeManager AddToScene(bool selectGameObjectAfterCreation = false) { return DoozyUtils.AddToScene<ThemeManager>(MenuUtils.ThemeManager_GameObject_Name, true, selectGameObjectAfterCreation); }
-        
+
         #endregion
     }
 }
