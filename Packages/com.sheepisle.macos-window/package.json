@@ -1,0 +1,11 @@
+{
+  "name": "com.sheepisle.macos-window",
+  "version": "1.0.0",
+  "displayName": "Sheep Isle macOS Window Bridge",
+  "description": "Project-owned AppKit bridge for the Sheep Isle desktop companion.",
+  "unity": "6000.3",
+  "dependencies": {},
+  "author": {
+    "name": "Sheep Isle"
+  }
+}
