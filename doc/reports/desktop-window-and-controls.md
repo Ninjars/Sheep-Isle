@@ -2,14 +2,14 @@
 type: report
 status: completed
 milestone: desktop-prototype
-updated: 2026-09-27
+updated: 2026-09-29
 ---
 
 # Desktop window and controls
 
 ## Outcome
 
-The Windows player runs as a borderless transparent desktop companion with click-through empty pixels, optional pinning, window and camera controls, saved placement and view state, and notification-area hide, restore, and exit actions. These player-facing desktop features were validated independently of the remaining initial-flock regression.
+The Windows player runs as a borderless transparent desktop companion with click-through empty pixels, optional pinning, window and camera controls, saved placement and view state, and notification-area hide, restore, and exit actions. These player-facing desktop features were first validated independently and later passed the integrated regression recorded in the [initial flock report](initial-flock.md).
 
 ## Delivered scope
 
@@ -43,7 +43,7 @@ The Windows player runs as a borderless transparent desktop companion with click
 
 ## Remaining risks or follow-up
 
-- Tray discoverability and restoration must still be observed with the current sheep player. That narrower integration check is `awaiting-validation` in the [initial flock plan](../plans/initial-flock.md); it does not invalidate the independently observed desktop controls above.
+- Tray discoverability and restoration with the current sheep player were subsequently observed in the integrated Windows-player pass recorded in the [initial flock report](initial-flock.md).
 - Camera framing and colour-key edge quality need another visual pass when the larger replacement island replaces the placeholder.
 - Focus-dependent shortcuts require the user to click the island before pressing `P`, `H`, `S`, or `Esc`.
 

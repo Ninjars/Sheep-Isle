@@ -12,27 +12,23 @@ This is the sole current roadmap for the Sheep Isle desktop companion. Check a f
 
 Sheep Isle is a calm floating island that lives on the desktop. Cuboid sheep wander, occasionally baa, and respond to attention. Interaction should be pleasant but optional, with a bounded flock and no care chores. The legacy food-placement and food-driven reproduction systems are not part of this direction.
 
-The Windows desktop prototype is nearly complete. Its transparent window, controls, companion scene, and basic flock exist; a final integrated flock validation remains. The production Apple-silicon macOS player now reproduces the transparent-window experience with a native menu-bar recovery surface and has passed its integrated acceptance check. The island in the companion scene is a placeholder for a larger biome-based replacement.
+The Windows desktop prototype is complete. Its transparent window, controls, companion scene, and initial flock have passed their integrated acceptance checks. The production Apple-silicon macOS player also reproduces the transparent-window experience with a native menu-bar recovery surface and has passed its integrated acceptance check. The island in the companion scene is a placeholder for a larger biome-based replacement.
 
 State persistence belongs to the feature or unit that owns the state. New documents and terminology follow the [documentation conventions](README.md) and root [product glossary](../CONTEXT.md).
 
 ## Milestone 1: Desktop prototype
 
-Deliver a comfortable transparent desktop companion with a small living flock. The milestone remains open until the initial flock's outstanding player checks are observed and the macOS transparent-window feasibility question is resolved.
+Delivered a comfortable transparent desktop companion with a small living flock on Windows, proved transparent-window feasibility on Apple silicon, and integrated the production macOS window and menu-bar controls. All required features and units have passed their acceptance checks.
 
 - [x] **Unit — Unity 6 migration.** Upgrade far enough to compile, open the companion scene, and build the Windows player while preserving the legacy main scene. See the [migration report](reports/unity-6-migration.md) and [dependency portability report](reports/unity-6-dependency-portability.md).
 - [x] **Unit — Desktop companion scene.** Transfer the island geometry into a separate Unity scene with its own camera, lighting, and prototype navigation data. See the [scene report](reports/companion-scene.md).
 - [x] **Feature — Desktop window and controls.** Provide borderless transparency, click-through empty pixels, pinning, window movement, camera orbit and zoom, saved state, and tray hide/restore/exit actions. See the [desktop window and controls report](reports/desktop-window-and-controls.md).
-- [ ] **Feature — Initial flock.** Present three wandering cuboid sheep with baas, sound control and feedback, petting, and planted square feet. Core behaviour is implemented and partly observed; audio persistence, hidden silence, feedback legibility, tray restoration, and the integrated regression remain. See the [awaiting-validation plan](plans/initial-flock.md).
+- [x] **Feature — Initial flock.** Present three wandering cuboid sheep with baas, sound control and feedback, petting, and planted square feet. The final Windows player passed the audio, feedback-legibility, tray-restoration, and integrated regression checks. See the [completion report](reports/initial-flock.md).
 - [x] **Unit — macOS transparent-window feasibility.** A standalone Unity 6 player reproduced borderless alpha transparency, selective background click-through, retained island interaction, Option-drag movement and saved position, topmost state, hide/restore, and quit on Apple silicon. This proves feasibility without committing the product to macOS support. See the [feasibility report](reports/macos-transparent-window-feasibility.md).
 - [x] **Feature — macOS desktop window and controls.** The Apple-silicon player provides alpha transparency, selective click-through, project-owned platform boundaries, Option-drag movement, persisted state, and a menu-bar Show/Hide, Pin/Unpin, and Quit recovery surface. See the [completion report](reports/macos-desktop-window.md).
 
-### Desktop prototype decisions still needed
+### Desktop prototype release follow-up
 
-- Confirm that variable baa pitch is distinct, the sound-effects preference survives relaunch, and hiding the island produces silence.
-- Confirm that the brief sound icon remains readable against light and dark desktop backgrounds.
-- Confirm that the tray icon is discoverable and restores the current sheep player.
-- Recheck sheep movement, audio, petting, click-through, pinning, camera controls, movement, hide/restore, and exit together in the final prototype player.
 - Decide when the validated Apple-silicon player is ready to be treated as a released product platform; Intel, Developer ID signing, notarisation, distribution, and login-item behaviour remain separate release decisions.
 
 ## Milestone 2: Replacement island

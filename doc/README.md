@@ -43,7 +43,6 @@ Never mark a task, feature, unit, or milestone complete merely because implement
 ### Current direction, planning, and reference
 
 - [Project outline](project-outline.md)
-- [Initial flock plan](plans/initial-flock.md)
 - [Navigation authoring reference](reference/navigation-authoring.md)
 
 ### Completed reports
@@ -52,6 +51,7 @@ Never mark a task, feature, unit, or milestone complete merely because implement
 - [Unity 6 dependency portability](reports/unity-6-dependency-portability.md)
 - [Desktop companion scene](reports/companion-scene.md)
 - [Desktop window and controls](reports/desktop-window-and-controls.md)
+- [Initial flock](reports/initial-flock.md)
 - [macOS transparent-window feasibility](reports/macos-transparent-window-feasibility.md)
 - [macOS desktop window and controls](reports/macos-desktop-window.md)
 - [Documentation formalisation](reports/documentation-formalisation.md)
