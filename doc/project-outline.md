@@ -12,7 +12,7 @@ This is the sole current roadmap for the Windows desktop companion. Check a feat
 
 Sheep Isle is a calm floating island that lives on the desktop. Cuboid sheep wander, occasionally baa, and respond to attention. Interaction should be pleasant but optional, with a bounded flock and no care chores. The legacy food-placement and food-driven reproduction systems are not part of this direction.
 
-The Windows desktop prototype is nearly complete. Its transparent window, controls, companion scene, and basic flock exist; a final integrated flock validation remains. A separate feasibility unit will determine whether the essential transparent-window experience can be reproduced in a standalone macOS player without committing the product to macOS support. The island in the companion scene is a placeholder for a larger biome-based replacement.
+The Windows desktop prototype is nearly complete. Its transparent window, controls, companion scene, and basic flock exist; a final integrated flock validation remains. A standalone macOS feasibility probe reproduced the essential transparent-window experience on Apple silicon, but production implementation and platform support remain future decisions. The island in the companion scene is a placeholder for a larger biome-based replacement.
 
 State persistence belongs to the feature or unit that owns the state. New documents and terminology follow the [documentation conventions](README.md) and root [product glossary](../CONTEXT.md).
 
@@ -24,7 +24,7 @@ Deliver a comfortable transparent desktop companion with a small living flock. T
 - [x] **Unit — Desktop companion scene.** Transfer the island geometry into a separate Unity scene with its own camera, lighting, and prototype navigation data. See the [scene report](reports/companion-scene.md).
 - [x] **Feature — Desktop window and controls.** Provide borderless transparency, click-through empty pixels, pinning, window movement, camera orbit and zoom, saved state, and tray hide/restore/exit actions. See the [desktop window and controls report](reports/desktop-window-and-controls.md).
 - [ ] **Feature — Initial flock.** Present three wandering cuboid sheep with baas, sound control and feedback, petting, and planted square feet. Core behaviour is implemented and partly observed; audio persistence, hidden silence, feedback legibility, tray restoration, and the integrated regression remain. See the [awaiting-validation plan](plans/initial-flock.md).
-- [ ] **Unit — macOS transparent-window feasibility.** Research and prove whether a standalone Unity 6 macOS player can provide a borderless transparent window, background click-through, and retained island interaction comparable to the Windows shell. This unit evaluates feasibility only and does not yet commit the product to macOS support. See the [feasibility plan](plans/macos-transparent-window-feasibility.md).
+- [x] **Unit — macOS transparent-window feasibility.** A standalone Unity 6 player reproduced borderless alpha transparency, selective background click-through, retained island interaction, Option-drag movement and saved position, topmost state, hide/restore, and quit on Apple silicon. This proves feasibility without committing the product to macOS support. See the [feasibility report](reports/macos-transparent-window-feasibility.md).
 
 ### Desktop prototype decisions still needed
 
@@ -32,7 +32,7 @@ Deliver a comfortable transparent desktop companion with a small living flock. T
 - Confirm that the brief sound icon remains readable against light and dark desktop backgrounds.
 - Confirm that the tray icon is discoverable and restores the current sheep player.
 - Recheck sheep movement, audio, petting, click-through, pinning, camera controls, movement, hide/restore, and exit together in the final prototype player.
-- Decide whether the macOS feasibility evidence justifies a production macOS window implementation and, if so, which AppKit integration boundary should own it.
+- Decide when to schedule production macOS support. The feasibility report recommends a project-owned desktop-window interface backed by a pinned, runtime-only UniWindowController integration, initially for Apple silicon unless a universal native bundle is produced and validated.
 
 ## Milestone 2: Replacement island
 
