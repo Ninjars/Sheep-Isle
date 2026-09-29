@@ -42,5 +42,14 @@ namespace SheepIsle.DesktopWindowing
         {
             return isMacOS && primaryHeld && optionHeld;
         }
+
+        public static bool AllowsGameplayPrimaryClick(
+            bool isMacOS,
+            bool primaryPressed,
+            bool optionPressed)
+        {
+            return primaryPressed
+                && !ReservesPrimaryClick(isMacOS, primaryPressed, optionPressed);
+        }
     }
 }

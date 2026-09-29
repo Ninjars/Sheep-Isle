@@ -1,4 +1,5 @@
 using UnityEngine;
+using SheepIsle.DesktopWindowing;
 
 [RequireComponent(typeof(Camera))]
 public sealed class CompanionSheepClick : MonoBehaviour
@@ -9,7 +10,11 @@ public sealed class CompanionSheepClick : MonoBehaviour
 
     private void Update()
     {
-        if (!Input.GetMouseButtonDown(0)) return;
+        bool primaryPressed = Input.GetMouseButtonDown(0);
+        bool optionPressed = Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt);
+        bool isMacOS = Application.platform == RuntimePlatform.OSXPlayer;
+        if (!DesktopWindowInputPolicy.AllowsGameplayPrimaryClick(
+                isMacOS, primaryPressed, optionPressed)) return;
         var ray = sceneCamera.ScreenPointToRay(Input.mousePosition);
         if (!Physics.Raycast(ray, out var hit, 500f)) return;
         var sheep = hit.collider.GetComponentInParent<CompanionSheep>();

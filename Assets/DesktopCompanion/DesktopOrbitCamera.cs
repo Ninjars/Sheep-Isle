@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public sealed class DesktopOrbitCamera : MonoBehaviour
 {
-#if UNITY_STANDALONE_WIN && !UNITY_EDITOR
+#if (UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX) && !UNITY_EDITOR
     private const string ViewSavedKey = "DesktopCompanion.CameraSaved.v1";
     private const string YawKey = "DesktopCompanion.CameraYaw.v1";
     private const string PitchKey = "DesktopCompanion.CameraPitch.v1";
@@ -57,7 +57,7 @@ public sealed class DesktopOrbitCamera : MonoBehaviour
 
         camera.orthographic = false;
         camera.fieldOfView = fieldOfView;
-#if UNITY_STANDALONE_WIN && !UNITY_EDITOR
+#if (UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX) && !UNITY_EDITOR
         if (PlayerPrefs.GetInt(ViewSavedKey, 0) != 0)
         {
             RestoreView(PlayerPrefs.GetFloat(YawKey, yaw),
@@ -108,7 +108,7 @@ public sealed class DesktopOrbitCamera : MonoBehaviour
         distance = Mathf.Lerp(distance, targetDistance, blend);
         ApplyView();
 
-#if UNITY_STANDALONE_WIN && !UNITY_EDITOR
+#if (UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX) && !UNITY_EDITOR
         if (viewDirty && Time.unscaledTime >= saveAt) SaveView();
 #endif
     }
@@ -134,12 +134,12 @@ public sealed class DesktopOrbitCamera : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-#if UNITY_STANDALONE_WIN && !UNITY_EDITOR
+#if (UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX) && !UNITY_EDITOR
         if (viewDirty) SaveView();
 #endif
     }
 
-#if UNITY_STANDALONE_WIN && !UNITY_EDITOR
+#if (UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX) && !UNITY_EDITOR
     private void SaveView()
     {
         PlayerPrefs.SetFloat(YawKey, targetYaw);

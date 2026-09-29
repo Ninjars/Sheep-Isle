@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.Build;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.AI;
@@ -239,21 +240,12 @@ public static class DesktopCompanionBuild
     public static void BuildWindowsPlayer()
     {
         PrepareScene();
-        PlayerSettings.fullScreenMode = FullScreenMode.Windowed;
-        PlayerSettings.defaultScreenWidth = 480;
-        PlayerSettings.defaultScreenHeight = 480;
-        PlayerSettings.resizableWindow = false;
-        PlayerSettings.runInBackground = true;
+        ConfigureCommonPlayerSettings();
         PlayerSettings.useFlipModelSwapchain = false;
         PlayerSettings.SetGraphicsAPIs(BuildTarget.StandaloneWindows64,
             new[] { GraphicsDeviceType.Direct3D11 });
 
-        var output = Environment.GetEnvironmentVariable("SHEEP_ISLE_BUILD_DIR");
-        if (string.IsNullOrEmpty(output))
-            output = Path.Combine(Directory.GetParent(Application.dataPath).FullName,
-                "Builds", "Desktop Companion");
-        Directory.CreateDirectory(output);
-
+        var output = ResolveBuildDirectory();
         var result = BuildPipeline.BuildPlayer(new BuildPlayerOptions
         {
             scenes = new[] { ScenePath },
@@ -264,5 +256,53 @@ public static class DesktopCompanionBuild
         if (result.summary.result != UnityEditor.Build.Reporting.BuildResult.Succeeded)
             throw new Exception("Desktop Companion build failed: " + result.summary.result);
         Debug.Log("Desktop Companion Windows player: " + output);
+    }
+
+    [MenuItem("Sheep Isle/Desktop Companion/Build macOS Player")]
+    public static void BuildMacOSPlayer()
+    {
+        PrepareScene();
+        ConfigureCommonPlayerSettings();
+        PlayerSettings.macRetinaSupport = true;
+        PlayerSettings.SetGraphicsAPIs(BuildTarget.StandaloneOSX,
+            new[] { GraphicsDeviceType.Metal });
+        PlayerSettings.SetScriptingBackend(
+            NamedBuildTarget.Standalone,
+            ScriptingImplementation.Mono2x);
+        EditorUserBuildSettings.SetPlatformSettings(
+            "OSXUniversal",
+            "Architecture",
+            OSArchitecture.ARM64.ToString());
+
+        var output = ResolveBuildDirectory();
+        var result = BuildPipeline.BuildPlayer(new BuildPlayerOptions
+        {
+            scenes = new[] { ScenePath },
+            locationPathName = Path.Combine(output, "Sheep Isle.app"),
+            target = BuildTarget.StandaloneOSX,
+            options = BuildOptions.None
+        });
+        if (result.summary.result != UnityEditor.Build.Reporting.BuildResult.Succeeded)
+            throw new Exception("Desktop Companion macOS build failed: " + result.summary.result);
+        Debug.Log("Desktop Companion macOS player: " + output);
+    }
+
+    private static void ConfigureCommonPlayerSettings()
+    {
+        PlayerSettings.fullScreenMode = FullScreenMode.Windowed;
+        PlayerSettings.defaultScreenWidth = 480;
+        PlayerSettings.defaultScreenHeight = 480;
+        PlayerSettings.resizableWindow = false;
+        PlayerSettings.runInBackground = true;
+    }
+
+    private static string ResolveBuildDirectory()
+    {
+        var output = Environment.GetEnvironmentVariable("SHEEP_ISLE_BUILD_DIR");
+        if (string.IsNullOrEmpty(output))
+            output = Path.Combine(Directory.GetParent(Application.dataPath).FullName,
+                "Builds", "Desktop Companion");
+        Directory.CreateDirectory(output);
+        return output;
     }
 }

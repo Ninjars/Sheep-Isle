@@ -37,5 +37,26 @@ namespace SheepIsle.DesktopWindowing.Tests
             Assert.That(DesktopWindowInputPolicy.ReservesPrimaryClick(
                 isMacOS, true, true), Is.EqualTo(expected));
         }
+
+        [Test]
+        public void AllowsGameplayPrimaryClick_OrdinaryPrimary_ReturnsTrue()
+        {
+            Assert.That(DesktopWindowInputPolicy.AllowsGameplayPrimaryClick(
+                true, true, false), Is.True);
+        }
+
+        [Test]
+        public void AllowsGameplayPrimaryClick_MacOptionPrimary_ReturnsFalse()
+        {
+            Assert.That(DesktopWindowInputPolicy.AllowsGameplayPrimaryClick(
+                true, true, true), Is.False);
+        }
+
+        [Test]
+        public void AllowsGameplayPrimaryClick_WindowsOptionPrimary_ReturnsTrue()
+        {
+            Assert.That(DesktopWindowInputPolicy.AllowsGameplayPrimaryClick(
+                false, true, true), Is.True);
+        }
     }
 }
