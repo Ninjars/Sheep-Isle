@@ -1,10 +1,13 @@
 {
-    "name": "SheepIsle.DesktopWindowing",
-    "rootNamespace": "SheepIsle.DesktopWindowing",
+    "name": "Kirurobo.UniWindowController",
+    "rootNamespace": "",
     "references": [
-        "Kirurobo.UniWindowController"
+        "GUID:75469ad4d38634e559750d17036d5f7c"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor",
+        "macOSStandalone"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
