@@ -45,6 +45,7 @@ Never mark a task, feature, unit, or milestone complete merely because implement
 - [Project outline](project-outline.md)
 - [Initial flock plan](plans/initial-flock.md)
 - [macOS desktop window and controls design](plans/macos-desktop-window.md)
+- [macOS desktop window implementation plan](plans/macos-desktop-window-implementation.md)
 - [Navigation authoring reference](reference/navigation-authoring.md)
 
 ### Completed reports

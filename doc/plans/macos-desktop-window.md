@@ -1,6 +1,6 @@
 ---
 type: plan
-status: draft
+status: active
 milestone: desktop-prototype
 updated: 2026-09-29
 ---
@@ -12,6 +12,8 @@ updated: 2026-09-29
 Deliver a production **Feature** that gives the Desktop Companion scene its proven transparent-window behaviour on Apple silicon macOS: alpha transparency, selective pointer pass-through, retained island interaction, pinning, movement, saved state, hide/restore, and a persistent menu-bar recovery surface.
 
 This feature implements the successful [macOS feasibility result](../reports/macos-transparent-window-feasibility.md). It does not by itself declare macOS a released or broadly supported platform.
+
+Execution is decomposed in the [macOS desktop window implementation plan](macos-desktop-window-implementation.md).
 
 ## Supported scope
 
