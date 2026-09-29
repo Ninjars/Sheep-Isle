@@ -23,6 +23,8 @@ public sealed class DesktopWindowController : MonoBehaviour
 
 #if UNITY_STANDALONE_WIN && !UNITY_EDITOR
         backend = new WindowsDesktopWindowBackend();
+#elif UNITY_STANDALONE_OSX && !UNITY_EDITOR
+        backend = new MacOSDesktopWindowBackend();
 #else
         yield break;
 #endif
