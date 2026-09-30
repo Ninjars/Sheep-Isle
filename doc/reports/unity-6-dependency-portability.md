@@ -2,7 +2,7 @@
 type: report
 status: completed
 milestone: desktop-prototype
-updated: 2026-09-29
+updated: 2026-09-30
 ---
 
 # Unity 6 dependency portability
@@ -24,6 +24,9 @@ The repository now contains the legacy UI dependencies required to compile and r
 - The Desktop Companion scene does not reference Doozy or DOTween directly. They remain because the preserved Main Scene contains six Doozy `UIButton` components, two `UIView` components, a `UICanvas`, event management, and a Nody graph; `GameManager` also consumes Doozy game events.
 - Replacing Doozy with project-owned UI would require a deliberate migration of the legacy Main Scene and `UIGraph.asset`. That work is not justified while the project guidance requires the scene to remain intact.
 - The legacy Main Scene retains its previously documented missing Polybrush component on `Land`. Dependency cleanup did not add or remove scene components.
+- DOTween's Unity 6 setup adds the `DOTWEEN` scripting define to every build target. The resulting `ProjectSettings.asset` serialization is tracked so a clean checkout does not need to repeat that setup or rewrite the migrated PlayerSettings file.
+- `EditorSettings.asset` already tracks Force Text serialization (`m_SerializationMode: 2`), and `VersionControlSettings.asset` already tracks Visible Meta Files. No additional version-control-mode migration was needed.
+- ProBuilder's `experimental.enabled = false` entry is not tracked. A clean Unity 6000.3.25f1 batch reopen removes that default-valued entry, showing it is editor-preference churn rather than required project migration state.
 
 ## Validation evidence
 
@@ -32,7 +35,7 @@ The repository now contains the legacy UI dependencies required to compile and r
 - Unity's compiler reported zero errors after the moves and deletions.
 - The Main Scene loaded with all six Doozy buttons and both Doozy views resolved; its only missing component was the already documented Polybrush component.
 - The Desktop Companion scene loaded with zero missing scripts, resolved DOTween from `Assets/Plugins/Demigiant/DOTween/DOTween.dll`, entered Play mode with three sheep, and produced zero Console errors.
-- Unity Test Framework discovered no project tests, so compilation, serialized-reference audits, and live scene checks provide the validation evidence for this maintenance slice.
+- The later desktop-window work added an EditMode suite. A clean archived copy containing the settled Unity 6 PlayerSettings ran 27 of 27 tests successfully on 30 September 2026, and Unity produced no further `ProjectSettings.asset` changes on reopen.
 
 ## Remaining risks or follow-up
 
